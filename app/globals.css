@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-obsidian: #08090b;
+  --color-charcoal: #111318;
+  --color-graphite: #1c1e24;
+  --color-mist: #dad9d6;
+  --color-softwhite: #f3f2ef;
+  --color-muted: #898b92;
+  --color-lavender: #c7b8ff;
+  --color-lavender-glow: rgba(199, 184, 255, 0.2);
+  --color-cyan: #58bfff;
+  --color-orange: #ff791f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #08090b;
+  color: #f3f2ef;
+  color-scheme: dark;
+}
+
+body {
+  background-color: #08090b;
+  color: #f3f2ef;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  selection-background-color: #c7b8ff;
+}
+
+
+::selection {
+  background: #c7b8ff;
+  color: #08090b;
+}
+
+::-moz-selection {
+  background: #c7b8ff;
+  color: #08090b;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #08090b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #252a36;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c7b8ff;
+}
+
+/* Atmospheric Noise Layer */
+.noise-bg {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* Fine Technical Scanline */
+.scanline-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* Glassmorphism Surface */
+.glass-panel {
+  background: rgba(21, 24, 31, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.glass-panel-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
+  border-color: rgba(199, 184, 255, 0.3);
+  box-shadow: 0 0 30px rgba(199, 184, 255, 0.08);
+}
+
+/* Text glow effect */
+.text-glow-lavender {
+  text-shadow: 0 0 24px rgba(199, 184, 255, 0.4);
+}
+
+/* Display typography fluid utility */
+.font-display-hero {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.5rem, 5.2vw, 5.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.font-display-heading {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.25rem, 6vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.font-editorial-statement {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.75rem, 4.5vw, 4rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+/* AZ. Signature Logo — entrance animation */
+@keyframes az-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.az-logo-enter {
+  animation: az-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.1s;
+}
+
+/* Interactive Cursor Hide on touch */
+@media (hover: none) and (pointer: coarse) {
+  .custom-cursor-container {
+    display: none !important;
+  }
+}
+
+/* Accessible Reduced-Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .preloader-overlay {
+    display: none !important;
+  }
+
+  .az-logo-enter {
+    animation: none !important;
+  }
+}
