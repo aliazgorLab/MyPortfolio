@@ -71,8 +71,7 @@ export default function Hero() {
   };
 
   const cls = (base, enter, delay = "") =>
-    `${base} transition-all duration-700 ease-out ${delay} ${
-      revealed ? enter : "opacity-0 translate-y-6"
+    `${base} transition-all duration-700 ease-out ${delay} ${revealed ? enter : "opacity-0 translate-y-6"
     }`;
 
   return (
@@ -112,13 +111,6 @@ export default function Hero() {
           "delay-100"
         )}
       >
-        <span className="font-mono text-[10px] tracking-[0.2em] text-muted/60 uppercase flex items-center gap-2">
-          <span className="w-1 h-1 rounded-full bg-[#58BFFF] opacity-60" />
-          PORTFOLIO SPECIFICATION // 2026
-        </span>
-        <span className="hidden sm:block font-mono text-[10px] tracking-[0.2em] text-muted/50 uppercase">
-          DESIGN × ENGINEERING × EXPERIMENTATION
-        </span>
       </div>
 
       {/* ── Layer 3: Main poster composition */}

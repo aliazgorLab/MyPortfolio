@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ScrollProgress from "@/components/layout/ScrollProgress";
 import SmoothScroll from "@/components/layout/SmoothScroll";
+import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -78,6 +79,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <div className="flex-1">{children}</div>
           <Footer />
+          <ProgressiveBlur position="bottom" />
         </SmoothScroll>
       </body>
     </html>

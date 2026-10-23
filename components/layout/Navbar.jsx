@@ -189,7 +189,7 @@ export default function Navbar() {
         role="dialog"
         aria-modal="true"
         aria-label="Navigation menu"
-        className={`fixed inset-0 z-30 bg-obsidian/97 backdrop-blur-2xl flex flex-col px-8 pt-28 pb-10 md:hidden transition-all duration-500 ${
+        className={`fixed inset-0 z-40 bg-obsidian/97 backdrop-blur-2xl flex flex-col px-8 pt-28 pb-10 md:hidden transition-all duration-500 ${
           mobileOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"

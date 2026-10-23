@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Preloader from "@/components/layout/Preloader";
 import Hero from "@/components/sections/Hero";
+import TechStackMarquee from "@/components/ui/tech-stack-marquee";
 import Statement from "@/components/sections/Statement";
 import SelectedWork from "@/components/sections/SelectedWork";
 import About from "@/components/sections/About";
@@ -18,6 +19,7 @@ export default function Home() {
     <main className="relative w-full overflow-hidden">
       <Preloader onComplete={() => setLoaded(true)} />
       <Hero />
+      <TechStackMarquee />
       <Statement />
       <SelectedWork />
       <About />

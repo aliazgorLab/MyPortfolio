@@ -26,6 +26,7 @@ export default function SelectedWork() {
 
   return (
     <section id="work" className="py-28 md:py-36 px-6 bg-obsidian relative noise-bg">
+      <div id="projects" className="absolute -top-24 pointer-events-none" aria-hidden="true" />
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8 border-b border-white/10 pb-8">

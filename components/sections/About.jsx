@@ -7,6 +7,7 @@ import { GraduationCap, MapPin, Compass, Terminal } from "lucide-react";
 export default function About() {
   return (
     <section id="about" className="py-28 md:py-36 px-6 bg-charcoal/40 relative border-t border-white/5 noise-bg">
+      <div id="research" className="absolute -top-24 pointer-events-none" aria-hidden="true" />
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="flex items-center gap-2 text-xs font-mono text-lavender tracking-widest uppercase mb-4">
