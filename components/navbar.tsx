@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { LetsTalkButton } from "@/components/ui/lets-talk-button";
 
 const NAV_LINKS = [
   { label: "Work", href: "#projects" },
@@ -18,13 +19,8 @@ export function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Trigger threshold: activate capsule after scrolling past 350px (approx. hero fold)
-      const scrollThreshold = 350;
-      if (window.scrollY > scrollThreshold) {
-        setShowFloatingNav(true);
-      } else {
-        setShowFloatingNav(false);
-      }
+      // Trigger floating bar once scrolled past 320px
+      setShowFloatingNav(window.scrollY > 320);
 
       // Active section detection for indicator
       const sections = [
@@ -37,7 +33,7 @@ export function Navigation() {
         { id: "contact", href: "#contact" },
       ];
 
-      const scrollPos = window.scrollY + 200;
+      const scrollPos = window.scrollY + 220;
       let matched = "";
       for (const section of sections) {
         const el = document.getElementById(section.id);
@@ -50,7 +46,7 @@ export function Navigation() {
           }
         }
       }
-      setActiveSection(window.scrollY > 350 ? matched : "");
+      setActiveSection(window.scrollY > 320 ? matched : "");
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -84,21 +80,19 @@ export function Navigation() {
   return (
     <>
       {/* ============================================================ */}
-      {/* 1. STATIC HERO HEADER (Normal flow, scrolls away naturally) */}
+      {/* 1. STATIC HERO NAVBAR (Natural document flow)                */}
       {/* ============================================================ */}
       <header className="relative z-40 w-full border-b border-neutral-800/40 bg-transparent">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 lg:px-8">
-          {/* Logo / Monogram */}
           <Link
-            className="font-mono text-xl font-bold tracking-tight text-neutral-100 transition hover:opacity-80"
+            className="font-mono text-xl font-bold tracking-tight text-neutral-100 transition hover:opacity-85"
             href="/"
             onClick={handleLogoClick}
           >
             AZ<span className="text-emerald-500">.</span>
           </Link>
 
-          {/* Centered Desktop Links */}
-          <nav className="hidden items-center gap-8 md:flex">
+          <nav className="hidden items-center gap-10 md:flex">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.label}
@@ -111,48 +105,40 @@ export function Navigation() {
             ))}
           </nav>
 
-          {/* Hero Action CTA */}
           <div className="flex items-center gap-4">
-            <Link
-              href="#contact"
-              onClick={(e) => handleNavClick(e, "#contact")}
-              className="inline-flex items-center gap-1.5 rounded-full border border-neutral-800 bg-neutral-900/80 px-4 py-2 text-xs font-mono font-medium text-neutral-200 transition hover:border-neutral-700 hover:bg-neutral-800 hover:text-white"
-            >
-              <span>Let&apos;s Talk</span>
-              <ArrowUpRight className="h-3.5 w-3.5 opacity-70" />
-            </Link>
+            <LetsTalkButton onNavClick={handleNavClick} />
           </div>
         </div>
       </header>
 
       {/* ============================================================ */}
-      {/* 2. FLOATING CAPSULE NAVBAR (Slides down when hero is scrolled past) */}
+      {/* 2. RACDOX-STYLE FLOATING CARD NAVBAR                         */}
       {/* ============================================================ */}
       <AnimatePresence>
         {showFloatingNav && (
           <motion.div
-            initial={{ y: -80, opacity: 0, scale: 0.95 }}
+            initial={{ y: -70, opacity: 0, scale: 0.98 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
-            exit={{ y: -80, opacity: 0, scale: 0.95 }}
+            exit={{ y: -70, opacity: 0, scale: 0.98 }}
             transition={{
               type: "spring",
-              stiffness: 280,
+              stiffness: 260,
               damping: 24,
-              mass: 0.8,
+              mass: 0.85,
             }}
-            className="fixed inset-x-0 top-4 z-50 mx-auto flex w-max max-w-[92vw] items-center justify-between gap-4 rounded-full border border-neutral-800/80 bg-neutral-950/80 px-3.5 py-2 shadow-2xl shadow-black/40 backdrop-blur-xl sm:gap-6 sm:px-6 sm:py-2.5"
+            className="fixed inset-x-0 top-5 z-50 mx-auto flex w-[92%] max-w-4xl items-center justify-between rounded-2xl border border-neutral-800/80 bg-neutral-950/85 px-6 py-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.65)] backdrop-blur-2xl sm:px-8"
           >
-            {/* Compact Monogram */}
+            {/* Logo */}
             <Link
+              className="font-mono text-lg font-bold tracking-tight text-neutral-100 transition hover:opacity-85"
               href="/"
               onClick={handleLogoClick}
-              className="font-mono text-sm font-bold tracking-tight text-neutral-100 transition-opacity hover:opacity-80 hover:text-white"
             >
               AZ<span className="text-emerald-500">.</span>
             </Link>
 
-            {/* Micro Navigation Items */}
-            <nav className="flex items-center gap-3 sm:gap-7">
+            {/* Navigation Links */}
+            <nav className="hidden items-center gap-8 sm:flex md:gap-10">
               {NAV_LINKS.map((link) => {
                 const isActive = activeSection === link.href;
                 return (
@@ -160,7 +146,7 @@ export function Navigation() {
                     key={link.label}
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className={`text-xs font-medium transition-colors duration-200 ${
+                    className={`text-sm font-medium transition-colors duration-200 ${
                       isActive
                         ? "font-semibold text-white"
                         : "text-neutral-400 hover:text-neutral-100"
@@ -172,15 +158,8 @@ export function Navigation() {
               })}
             </nav>
 
-            {/* Capsule CTA Pill */}
-            <Link
-              href="#contact"
-              onClick={(e) => handleNavClick(e, "#contact")}
-              className="group inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-neutral-200 to-white px-3 py-1.5 text-xs font-medium text-neutral-950 shadow-sm transition hover:opacity-90 sm:px-3.5"
-            >
-              <span>Connect</span>
-              <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </Link>
+            {/* Consistent Animated CTA */}
+            <LetsTalkButton compact onNavClick={handleNavClick} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -188,4 +167,5 @@ export function Navigation() {
   );
 }
 
+export { LetsTalkButton };
 export default Navigation;
