@@ -112,7 +112,7 @@ export function Navigation() {
       </header>
 
       {/* ============================================================ */}
-      {/* 2. RACDOX-STYLE FLOATING CARD NAVBAR                         */}
+      {/* 2. FLOATING CARD NAVBAR                         */}
       {/* ============================================================ */}
       <AnimatePresence>
         {showFloatingNav && (
@@ -146,11 +146,10 @@ export function Navigation() {
                     key={link.label}
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className={`text-sm font-medium transition-colors duration-200 ${
-                      isActive
+                    className={`text-sm font-medium transition-colors duration-200 ${isActive
                         ? "font-semibold text-white"
                         : "text-neutral-400 hover:text-neutral-100"
-                    }`}
+                      }`}
                   >
                     {link.label}
                   </Link>
