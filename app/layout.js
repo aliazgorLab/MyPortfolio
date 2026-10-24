@@ -1,6 +1,6 @@
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
+import { Navigation } from "@/components/navbar";
 import Footer from "@/components/layout/Footer";
 import ScrollProgress from "@/components/layout/ScrollProgress";
 import SmoothScroll from "@/components/layout/SmoothScroll";
@@ -76,7 +76,7 @@ export default function RootLayout({ children }) {
       >
         <SmoothScroll>
           <ScrollProgress />
-          <Navbar />
+          <Navigation />
           <div className="flex-1">{children}</div>
           <Footer />
           <ProgressiveBlur position="bottom" />
