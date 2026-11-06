@@ -29,7 +29,7 @@ export default function Contact({ personalInfoData = null }) {
     const mailBody = encodeURIComponent(
       `Hello Ali,\n\n${message || "I would like to discuss a project with you."}\n\nBest regards,\n${senderName || "Visitor"}`
     );
-    window.location.href = `mailto:${personalInfo.email}?subject=${mailSubject}&body=${mailBody}`;
+    window.location.href = `mailto:${activeInfo.email}?subject=${mailSubject}&body=${mailBody}`;
   };
 
   return (
