@@ -7,13 +7,14 @@ import { projects } from "@/data/portfolioData";
 import ProjectModal from "@/components/ui/ProjectModal";
 import { ArrowUpRight, ExternalLink, Eye, Layers } from "lucide-react";
 
-export default function SelectedWork() {
+export default function SelectedWork({ projectsData = null }) {
+  const activeProjects = projectsData && projectsData.length > 0 ? projectsData : projects;
   const [selectedProject, setSelectedProject] = useState(null);
   const [filter, setFilter] = useState("ALL");
 
   const categories = ["ALL", "PRODUCT & FRONTEND", "AI / FULL-STACK", "UI/UX & SYSTEMS"];
 
-  const filteredProjects = projects.filter((p) => {
+  const filteredProjects = activeProjects.filter((p) => {
     if (filter === "ALL") return true;
     if (filter === "PRODUCT & FRONTEND")
       return p.category.includes("Product") || p.category.includes("Frontend");

@@ -3,7 +3,8 @@
 import { experience } from "@/data/portfolioData";
 import { Briefcase, Calendar, CheckCircle, AlertCircle } from "lucide-react";
 
-export default function Experience() {
+export default function Experience({ experienceData = null }) {
+  const activeExperience = experienceData && experienceData.length > 0 ? experienceData : experience;
   return (
     <section id="experience" className="py-28 md:py-36 px-6 bg-obsidian relative border-t border-white/5 noise-bg">
       <div className="max-w-7xl mx-auto">
@@ -28,7 +29,7 @@ export default function Experience() {
 
         {/* Timeline Sequence */}
         <div className="relative border-l border-white/10 ml-4 md:ml-32 pl-8 md:pl-16 flex flex-col gap-12 md:gap-16">
-          {experience.map((item, idx) => (
+          {activeExperience.map((item, idx) => (
             <div key={item.id} className="relative group">
               {/* Timeline marker on the vertical rule */}
               <div className="absolute -left-[41px] md:-left-[73px] top-1.5 w-4 h-4 rounded-full border-2 border-obsidian bg-surface-200 group-hover:bg-lavender group-hover:scale-125 transition-all duration-300 shadow-[0_0_10px_rgba(199,184,255,0.4)]">

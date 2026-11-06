@@ -4,7 +4,8 @@ import Image from "next/image";
 import { personalInfo } from "@/data/portfolioData";
 import { GraduationCap, MapPin, Compass, Terminal } from "lucide-react";
 
-export default function About() {
+export default function About({ personalInfoData = null }) {
+  const activeInfo = personalInfoData || personalInfo;
   return (
     <section id="about" className="py-28 md:py-36 px-6 bg-charcoal/40 relative border-t border-white/5 noise-bg">
       <div id="research" className="absolute -top-24 pointer-events-none" aria-hidden="true" />

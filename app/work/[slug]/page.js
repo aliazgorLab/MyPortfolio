@@ -1,16 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { projects } from "@/data/portfolioData";
+import { getProjectBySlug, getPublishedProjects } from "@/lib/services/portfolio";
 import { ArrowLeft, ExternalLink, CheckCircle2 } from "lucide-react";
 import { GithubIcon } from "@/components/ui/Icons";
 
-export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.id }));
+export async function generateStaticParams() {
+  const projects = await getPublishedProjects();
+  return projects.map((p) => ({ slug: p.id || p.slug }));
 }
 
-export function generateMetadata({ params }) {
-  const project = projects.find((p) => p.id === params.slug);
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const project = await getProjectBySlug(slug);
   if (!project) return { title: "Project Not Found" };
   return {
     title: `${project.title} — Md Ali Azgor`,
@@ -20,7 +22,7 @@ export function generateMetadata({ params }) {
 
 export default async function ProjectCaseStudyPage({ params }) {
   const { slug } = await params;
-  const project = projects.find((p) => p.id === slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     notFound();
@@ -77,7 +79,7 @@ export default async function ProjectCaseStudyPage({ params }) {
               </p>
             </div>
 
-            {project.features && (
+            {project.features && project.features.length > 0 && (
               <div>
                 <h2 className="font-mono text-xs text-lavender tracking-widest uppercase mb-4">
                   // CORE IMPLEMENTATIONS
@@ -112,7 +114,7 @@ export default async function ProjectCaseStudyPage({ params }) {
                 TECH STACK
               </span>
               <div className="flex flex-wrap gap-1.5">
-                {project.tech.map((t) => (
+                {project.tech && project.tech.map((t) => (
                   <span
                     key={t}
                     className="px-2.5 py-1 rounded text-xs font-mono bg-surface-200 text-softwhite border border-white/5"

@@ -11,7 +11,8 @@ const CATEGORY_ICONS = {
   EXPLORING: Wrench,
 };
 
-export default function Capabilities() {
+export default function Capabilities({ capabilitiesData = null }) {
+  const activeCapabilities = capabilitiesData && capabilitiesData.length > 0 ? capabilitiesData : capabilities;
   return (
     <section id="capabilities" className="py-28 md:py-36 px-6 bg-charcoal/30 relative border-t border-white/5 noise-bg">
       <div id="stack" className="absolute -top-24 pointer-events-none" aria-hidden="true" />
@@ -37,7 +38,7 @@ export default function Capabilities() {
 
         {/* Structured Asymmetric Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {capabilities.map((cat) => {
+          {activeCapabilities.map((cat) => {
             const Icon = CATEGORY_ICONS[cat.category] || Sparkles;
             return (
               <div

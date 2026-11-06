@@ -6,14 +6,15 @@ import { copyTextToClipboard } from "@/lib/utils";
 import { Mail, ArrowUpRight, Copy, Check, Send } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/Icons";
 
-export default function Contact() {
+export default function Contact({ personalInfoData = null }) {
+  const activeInfo = personalInfoData || personalInfo;
   const [copied, setCopied] = useState(false);
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [senderName, setSenderName] = useState("");
 
   const handleCopyEmail = async () => {
-    const success = await copyTextToClipboard(personalInfo.email);
+    const success = await copyTextToClipboard(activeInfo.email);
     if (success) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
@@ -130,10 +131,10 @@ export default function Contact() {
                 OFFICIAL PRIMARY INBOX
               </span>
               <a
-                href={`mailto:${personalInfo.email}`}
+                href={`mailto:${activeInfo.email}`}
                 className="font-display text-xl sm:text-2xl font-bold text-softwhite hover:text-lavender transition-colors break-all"
               >
-                {personalInfo.email}
+                {activeInfo.email}
               </a>
 
               <div className="mt-6 flex flex-wrap gap-3">
@@ -155,7 +156,7 @@ export default function Contact() {
                 </button>
 
                 <a
-                  href={`mailto:${personalInfo.email}`}
+                  href={`mailto:${activeInfo.email}`}
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-lavender text-obsidian text-xs font-mono font-semibold tracking-wider uppercase hover:bg-softwhite transition-colors"
                 >
                   <Mail className="w-4 h-4" />
@@ -171,7 +172,7 @@ export default function Contact() {
               </span>
 
               <a
-                href={personalInfo.linkedin}
+                href={activeInfo.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-between p-4 rounded-xl bg-surface-200/50 border border-white/5 hover:border-lavender/40 hover:bg-surface-200 transition-all group"
@@ -191,7 +192,7 @@ export default function Contact() {
               </a>
 
               <a
-                href={personalInfo.github}
+                href={activeInfo.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-between p-4 rounded-xl bg-surface-200/50 border border-white/5 hover:border-lavender/40 hover:bg-surface-200 transition-all group"

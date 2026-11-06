@@ -2,7 +2,8 @@
 
 import { principles } from "@/data/portfolioData";
 
-export default function Philosophy() {
+export default function Philosophy({ principlesData = null }) {
+  const activePrinciples = principlesData && principlesData.length > 0 ? principlesData : principles;
   return (
     <section className="py-28 md:py-36 px-6 bg-obsidian relative border-t border-white/5 noise-bg">
       <div className="max-w-7xl mx-auto">
@@ -26,7 +27,7 @@ export default function Philosophy() {
 
         {/* Manifesto Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-          {principles.map((p) => (
+          {activePrinciples.map((p) => (
             <div
               key={p.number}
               className="relative p-8 rounded-2xl border border-white/10 bg-surface-100/40 backdrop-blur-md flex flex-col justify-between group hover:border-lavender/40 hover:bg-surface-100/70 transition-all duration-300"
