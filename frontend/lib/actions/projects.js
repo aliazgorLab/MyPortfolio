@@ -2,25 +2,54 @@
 
 import { projectSchema } from "@/lib/validations/projects";
 import { requireAdmin, successResponse, errorResponse } from "./helpers";
+import { projects as fallbackProjects } from "@/data/portfolioData";
 import { revalidatePath } from "next/cache";
 
 export async function getProjectsAction(options = {}) {
   try {
     const { supabase } = await requireAdmin();
-    let query = supabase
-      .from("projects")
-      .select("*")
-      .order("display_order", { ascending: true })
-      .order("created_at", { ascending: false });
 
-    if (options.status) {
-      query = query.eq("status", options.status);
+    if (supabase) {
+      try {
+        let query = supabase
+          .from("projects")
+          .select("*")
+          .order("display_order", { ascending: true })
+          .order("created_at", { ascending: false });
+
+        if (options.status) {
+          query = query.eq("status", options.status);
+        }
+
+        const { data, error } = await query;
+        if (!error && data && data.length > 0) {
+          return successResponse(data);
+        }
+      } catch {
+        // Fall back to static portfolio data
+      }
     }
 
-    const { data, error } = await query;
-    if (error) throw error;
+    // Return static projects mapped to schema
+    const mapped = (fallbackProjects || []).map((p, idx) => ({
+      id: p.id,
+      title: p.title,
+      slug: p.id,
+      number: p.number,
+      category: p.category,
+      tagline: p.tagline,
+      description: p.description,
+      status: "published",
+      display_order: idx + 1,
+      accent: p.accent,
+      year: p.year,
+      live_url: p.liveUrl,
+      github_url: p.githubUrl,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }));
 
-    return successResponse(data);
+    return successResponse(mapped);
   } catch (err) {
     return errorResponse(err);
   }

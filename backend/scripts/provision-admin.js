@@ -55,7 +55,7 @@ async function main() {
 
   const adminId = process.env.ADMIN_ID || "admin";
   const adminEmail = process.env.ADMIN_EMAIL || "ali.azgor.0810@gmail.com";
-  const generatedPassword = generateSecurePassword(28);
+  const generatedPassword = process.env.ADMIN_PASSWORD || generateSecurePassword(28);
 
   console.log("1. Generated Administrator Credentials (Store Safely):");
   console.log(`   - Admin ID:        ${adminId}`);
@@ -142,3 +142,4 @@ main().catch((err) => {
   console.error("Provisioning caught unhandled error:", err);
   process.exit(1);
 });
+
