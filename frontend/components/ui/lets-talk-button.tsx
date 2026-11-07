@@ -32,11 +32,10 @@ export function LetsTalkButton({
     <Link
       href="#contact"
       onClick={handleClick}
-      className={`group relative inline-flex items-center justify-center overflow-hidden rounded-2xl bg-surface-elevated/90 border border-white/10 select-none transition-all duration-300 hover:border-orange/50 hover:shadow-[0_0_20px_rgba(244,106,69,0.2)] active:scale-95 ${
-        compact
-          ? "px-4 py-2 text-xs"
-          : "px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm"
-      } ${className}`}
+      className={`group relative inline-flex items-center justify-center overflow-hidden rounded-2xl bg-surface-elevated/90 border border-white/10 select-none transition-all duration-300 hover:border-orange/50 hover:shadow-[0_0_20px_rgba(244,106,69,0.2)] active:scale-95 ${compact
+        ? "px-4 py-2 text-xs"
+        : "px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm"
+        } ${className}`}
     >
       {/* ============================================================ */}
       {/* INTERNAL LIGHT SWEEP (Strictly constrained within bounds)    */}

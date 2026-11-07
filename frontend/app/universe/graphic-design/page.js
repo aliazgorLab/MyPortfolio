@@ -1,20 +1,26 @@
-import { getCreativeWorldData } from "@/lib/services/universeAdapter";
-import UniverseWorldLayout from "@/components/universe/UniverseWorldLayout";
+"use client";
 
-export const metadata = {
-  title: "Graphic Design World — Creative Universe | Md Ali Azgor",
-  description:
-    "Explore Logo Design, Brand Identity, Poster Design, Banners, Social Media, and Print Design works in an interactive exhibition journey.",
-};
+import dynamic from "next/dynamic";
 
-export default async function GraphicDesignUniversePage() {
-  const data = await getCreativeWorldData("graphic-design");
+const GraphicDesignExhibition3D = dynamic(
+  () => import("@/components/universe/three/GraphicDesignExhibition3D"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-screen h-screen bg-obsidian flex flex-col items-center justify-center text-orange font-mono">
+        <div className="w-12 h-12 rounded-full border-2 border-orange border-t-transparent animate-spin mb-4" />
+        <span className="text-xs uppercase tracking-widest">
+          ENTERING GRAPHIC DESIGN 3D EXHIBITION...
+        </span>
+      </div>
+    ),
+  }
+);
 
+export default function GraphicDesignUniversePage() {
   return (
-    <UniverseWorldLayout
-      world={data.world}
-      categories={data.categories}
-      allWorlds={data.allWorlds}
-    />
+    <main className="w-screen h-screen overflow-hidden bg-obsidian">
+      <GraphicDesignExhibition3D />
+    </main>
   );
 }
