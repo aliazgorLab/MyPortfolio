@@ -75,6 +75,20 @@ export async function requireAdmin() {
 }
 
 /**
+ * Asserts that the caller is an authenticated administrator AND that a functional
+ * Supabase database client is available. Prevents null-pointer crashes.
+ */
+export async function requireAdminDatabase() {
+  const { supabase, user, profile } = await requireAdmin();
+  if (!supabase) {
+    throw new Error(
+      "Database service is currently unreachable. Please check your Supabase connection and environment settings."
+    );
+  }
+  return { supabase, user, profile };
+}
+
+/**
  * Standard action response helper.
  */
 export function successResponse(data, message = "Operation completed successfully") {
@@ -82,18 +96,37 @@ export function successResponse(data, message = "Operation completed successfull
 }
 
 export function errorResponse(error, fallbackMessage = "An unexpected error occurred") {
+  // Handle Zod validation errors
+  if (error?.name === "ZodError" && Array.isArray(error.issues) && error.issues.length > 0) {
+    const firstIssue = error.issues[0];
+    const field = firstIssue.path?.join(".") || "Form input";
+    return {
+      success: false,
+      data: null,
+      error: `${field}: ${firstIssue.message}`,
+    };
+  }
+
   let message = error?.message || (typeof error === "string" ? error : fallbackMessage);
-  
-  // Sanitize raw network / DNS / server fetch errors into clean user messages
-  if (
+
+  // Sanitize PostgreSQL error codes into readable messages
+  if (error?.code === "23505" || message.includes("duplicate key value")) {
+    message = "A record with this identifier or slug already exists. Please choose a unique name.";
+  } else if (error?.code === "42P01" || message.includes("does not exist")) {
+    message = "Database table was not found. Please ensure the latest Supabase migration has been executed.";
+  } else if (error?.code === "23503" || message.includes("foreign key constraint")) {
+    message = "Referenced parent item (World, Category, or Media) does not exist or has been deleted.";
+  } else if (error?.code === "PGRST205" || message.includes("schema cache")) {
+    message = "Database schema cache needs refreshing or migration has not yet been executed in Supabase.";
+  } else if (
     message.includes("fetch failed") ||
     message.includes("ENOTFOUND") ||
     message.includes("ECONNREFUSED") ||
     message.includes("Failed to fetch")
   ) {
-    message = "Unable to reach database service. Please check your credentials or try again.";
+    message = "Unable to reach database service. Please check your Supabase project status or network connection.";
   }
-  
+
   return { success: false, data: null, error: message };
 }
 

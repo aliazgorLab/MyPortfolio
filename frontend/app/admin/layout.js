@@ -16,6 +16,7 @@ import {
   ExternalLink,
   LogOut,
   Shield,
+  Globe,
 } from "lucide-react";
 
 export const metadata = {
@@ -28,7 +29,8 @@ export const metadata = {
 
 const NAV_ITEMS = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { label: "Projects", href: "/admin/projects", icon: FolderGit2 },
+  { label: "Projects & Works", href: "/admin/projects", icon: FolderGit2 },
+  { label: "Universe & Categories", href: "/admin/categories", icon: Globe },
   { label: "Artworks", href: "/admin/artworks", icon: Palette },
   { label: "Experience", href: "/admin/experiences", icon: Briefcase },
   { label: "Education", href: "/admin/education", icon: GraduationCap },

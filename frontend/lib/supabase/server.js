@@ -13,14 +13,20 @@ export async function createClient() {
     return null;
   }
 
-  const cookieStore = await cookies();
+  let cookieStore = null;
+  try {
+    cookieStore = await cookies();
+  } catch {
+    // In Next.js 15/16, cookies() throws when called during build/prerendering (e.g. generateStaticParams)
+  }
 
   return createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
       getAll() {
-        return cookieStore.getAll();
+        return cookieStore ? cookieStore.getAll() : [];
       },
       setAll(cookiesToSet) {
+        if (!cookieStore) return;
         try {
           cookiesToSet.forEach(({ name, value, options }) => {
             cookieStore.set(name, value, options);
