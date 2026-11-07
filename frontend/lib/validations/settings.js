@@ -8,6 +8,9 @@ export const siteSettingSchema = z.object({
   media_id: z.string().uuid("Invalid media ID").nullable().optional(),
 });
 
+// Alias for backwards/route compatibility
+export const settingsSchema = siteSettingSchema;
+
 export const personalInfoSettingSchema = z.object({
   name: z.string().trim().min(2, "Name is required"),
   title: z.string().trim().min(2, "Title is required"),
@@ -20,4 +23,3 @@ export const personalInfoSettingSchema = z.object({
   linkedin: z.string().trim().url("Invalid LinkedIn URL").optional().or(z.literal("")),
   github: z.string().trim().url("Invalid GitHub URL").optional().or(z.literal("")),
 });
-

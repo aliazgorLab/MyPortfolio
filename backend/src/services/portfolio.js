@@ -106,14 +106,13 @@ export async function getPublishedAchievements() {
 export async function getPublicWebsiteSettings() {
   const supabase = getSupabaseClient();
   const { data, error } = await supabase
-    .from("website_settings")
+    .from("site_settings")
     .select("*")
-    .order("updated_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
+    .eq("is_public", true)
+    .order("updated_at", { ascending: false });
 
   if (error) throw error;
-  return data;
+  return data || [];
 }
 
 /**

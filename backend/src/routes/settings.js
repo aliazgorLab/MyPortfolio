@@ -22,19 +22,27 @@ router.put("/admin", async (req, res, next) => {
     }
 
     const admin = createAdminClient();
-    const existing = await admin.from("website_settings").select("id").limit(1).maybeSingle();
+    if (!admin) {
+      return res.status(500).json({ success: false, error: "Database unconfigured" });
+    }
+
+    const existing = await admin
+      .from("site_settings")
+      .select("id")
+      .eq("key", parsed.data.key)
+      .maybeSingle();
 
     let result;
     if (existing.data?.id) {
       result = await admin
-        .from("website_settings")
+        .from("site_settings")
         .update(parsed.data)
         .eq("id", existing.data.id)
         .select()
         .single();
     } else {
       result = await admin
-        .from("website_settings")
+        .from("site_settings")
         .insert(parsed.data)
         .select()
         .single();
@@ -48,4 +56,3 @@ router.put("/admin", async (req, res, next) => {
 });
 
 export default router;
-
