@@ -1,2 +1,2 @@
-export * from "./tech-stack-marquee.tsx";
-export { default } from "./tech-stack-marquee.tsx";
+export * from "./tech-stack-marquee";
+export { default } from "./tech-stack-marquee";
