@@ -234,7 +234,8 @@ BEGIN
     (v_world_video, 'Motion Graphics', 'motion-graphics', 'Kinetic typography, animated logos, title cards, and 2D/3D motion.', 2, true),
     (v_world_video, 'Video Editing', 'video-editing', 'Narrative cuts, cinematic color grading, sound design, and pacing.', 3, true),
     (v_world_video, 'Social Media Reels', 'social-media-reels', 'High-impact vertical reels (9:16), shorts, and teaser loops.', 4, true),
-    (v_world_video, 'Event Videos', 'event-videos', 'Event recaps, aftermovies, coverage, and highlight reels.', 5, true)
+    (v_world_video, 'Event Videos', 'event-videos', 'Event recaps, aftermovies, coverage, and highlight reels.', 5, true),
+    (v_world_video, 'Showreels & Montages', 'showreels-montages', 'Portfolio showreels, cinematic sizzle reels, and multi-project montages.', 6, true)
   ON CONFLICT (slug) DO UPDATE SET
     name = EXCLUDED.name,
     description = EXCLUDED.description,

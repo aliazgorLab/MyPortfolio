@@ -11,22 +11,37 @@ const SESSION_SECRET =
   "portfolio-cms-secure-session-key-2026-ali-azgor";
 
 export const DEFAULT_ADMIN = {
-  id: "00000000-0000-0000-0000-000000000001",
+  id: "10000000-0000-4000-8000-000000000001",
   adminId: "admin",
   email: "ali.azgor.0810@gmail.com",
   fullName: "Md Ali Azgor",
 };
 
+export function getSessionSecret() {
+  const secret =
+    process.env.ADMIN_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (secret) return secret;
+  if (process.env.NODE_ENV === "production") {
+    // In production, strictly reject static fallback secret
+    return null;
+  }
+  return "portfolio-cms-secure-session-key-2026-ali-azgor";
+}
+
 export function getAdminCredentials() {
+  const isProd = process.env.NODE_ENV === "production";
   return {
     adminId: (process.env.ADMIN_ID || DEFAULT_ADMIN.adminId).toLowerCase().trim(),
     adminEmail: (process.env.ADMIN_EMAIL || DEFAULT_ADMIN.email).toLowerCase().trim(),
-    adminPassword: process.env.ADMIN_PASSWORD || "aliazgor@zgOR",
+    // In production, strictly reject hardcoded default password if env var is missing
+    adminPassword: process.env.ADMIN_PASSWORD || (isProd ? null : "aliazgor@zgOR"),
   };
 }
 
 export function verifyAdminCredentials(rawIdentifier, rawPassword) {
   const { adminId, adminEmail, adminPassword } = getAdminCredentials();
+  if (!adminPassword) return false;
+
   const inputIdentifier = (rawIdentifier || "").toLowerCase().trim();
   const inputPassword = (rawPassword || "").trim();
 
@@ -37,6 +52,13 @@ export function verifyAdminCredentials(rawIdentifier, rawPassword) {
 }
 
 export async function createAdminSessionToken(customPayload = {}) {
+  const secret = getSessionSecret();
+  if (!secret) {
+    throw new Error(
+      "Admin session token generation aborted: ADMIN_SESSION_SECRET or SUPABASE_SERVICE_ROLE_KEY must be configured in production."
+    );
+  }
+
   const { adminId, adminEmail } = getAdminCredentials();
   const payload = {
     sub: DEFAULT_ADMIN.id,
@@ -52,7 +74,7 @@ export async function createAdminSessionToken(customPayload = {}) {
   const enc = new TextEncoder();
   const key = await crypto.subtle.importKey(
     "raw",
-    enc.encode(SESSION_SECRET),
+    enc.encode(secret),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"]
@@ -71,6 +93,9 @@ export async function verifyAdminSessionToken(token) {
     return null;
   }
 
+  const secret = getSessionSecret();
+  if (!secret) return null;
+
   const [b64Data, b64Sig] = token.split(".");
   if (!b64Data || !b64Sig) return null;
 
@@ -78,7 +103,7 @@ export async function verifyAdminSessionToken(token) {
     const enc = new TextEncoder();
     const key = await crypto.subtle.importKey(
       "raw",
-      enc.encode(SESSION_SECRET),
+      enc.encode(secret),
       { name: "HMAC", hash: "SHA-256" },
       false,
       ["verify"]

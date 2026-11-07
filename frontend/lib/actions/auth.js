@@ -9,9 +9,9 @@ import {
   verifyAdminCredentials,
   buildAdminSessionObjects,
 } from "@/lib/auth/session";
-import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { cookies } from "next/headers.js";
+import { revalidatePath } from "next/cache.js";
+import { redirect } from "next/navigation.js";
 
 export async function loginAction(credentials) {
   try {

@@ -1,10 +1,11 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "../supabase/server.js";
+import { createAdminClient } from "../supabase/admin.js";
 import {
   ADMIN_COOKIE_NAME,
   verifyAdminSessionToken,
   buildAdminSessionObjects,
-} from "@/lib/auth/session";
-import { cookies } from "next/headers";
+} from "../auth/session.js";
+import { cookies } from "next/headers.js";
 
 /**
  * Asserts that the caller is an authenticated administrator.
@@ -76,16 +77,35 @@ export async function requireAdmin() {
 
 /**
  * Asserts that the caller is an authenticated administrator AND that a functional
- * Supabase database client is available. Prevents null-pointer crashes.
+ * Supabase database client is available.
+ * Resolves to the administrative client when available to satisfy RLS mutations.
  */
 export async function requireAdminDatabase() {
   const { supabase, user, profile } = await requireAdmin();
-  if (!supabase) {
+
+  // If service role client is available on the server, use it for administrative mutations
+  // to ensure mutations succeed under RLS after identity verification.
+  let dbClient = null;
+  try {
+    const adminClient = createAdminClient();
+    if (adminClient) {
+      dbClient = adminClient;
+    }
+  } catch {
+    // Fall back to user client
+  }
+
+  if (!dbClient) {
+    dbClient = supabase;
+  }
+
+  if (!dbClient) {
     throw new Error(
       "Database service is currently unreachable. Please check your Supabase connection and environment settings."
     );
   }
-  return { supabase, user, profile };
+
+  return { supabase: dbClient, user, profile };
 }
 
 /**

@@ -1,10 +1,10 @@
 "use server";
 
-import { projectSchema } from "@/lib/validations/projects";
-import { parseVideoUrl } from "@/lib/validations/video";
-import { requireAdmin, requireAdminDatabase, successResponse, errorResponse } from "./helpers";
-import { projects as fallbackProjects } from "@/data/portfolioData";
-import { revalidatePath } from "next/cache";
+import { projectSchema } from "../validations/projects.js";
+import { parseVideoUrl } from "../validations/video.js";
+import { requireAdmin, requireAdminDatabase, successResponse, errorResponse } from "./helpers.js";
+import { projects as fallbackProjects } from "../../data/portfolioData.js";
+import { revalidatePath } from "next/cache.js";
 
 export async function getProjectsAction(options = {}) {
   try {

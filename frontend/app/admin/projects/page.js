@@ -14,6 +14,11 @@ import {
   getCreativeWorldsAction,
   getCreativeCategoriesAction,
 } from "@/lib/actions/categories";
+import {
+  getMediaListAction,
+  createUploadIntentAction,
+  confirmUploadAction,
+} from "@/lib/actions/media";
 import { parseVideoUrl } from "@/lib/validations/video";
 import {
   Plus,
@@ -36,6 +41,11 @@ import {
   Check,
   Flame,
   Info,
+  Upload,
+  FolderOpen,
+  ArrowUp,
+  ArrowDown,
+  Loader2,
 } from "lucide-react";
 
 const WORLD_OPTIONS = [
@@ -64,10 +74,19 @@ export default function AdminProjectsPage() {
   const [formError, setFormError] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
 
-  // New Gallery Item Local Input
+  // Gallery Sub-form Local State
+  const [galleryAddMode, setGalleryAddMode] = useState("url"); // 'url' | 'upload'
   const [newGalleryUrl, setNewGalleryUrl] = useState("");
   const [newGalleryCaption, setNewGalleryCaption] = useState("");
   const [newGalleryAlt, setNewGalleryAlt] = useState("");
+
+  // Media Library Picker Modal State
+  const [mediaModalOpen, setMediaModalOpen] = useState(false);
+  const [mediaTarget, setMediaTarget] = useState("cover"); // 'cover' | 'gallery'
+  const [mediaList, setMediaList] = useState([]);
+  const [mediaLoading, setMediaLoading] = useState(false);
+  const [uploadingCover, setUploadingCover] = useState(false);
+  const [uploadingGallery, setUploadingGallery] = useState(false);
 
   // Demo Purge Modal State
   const [purgeModalOpen, setPurgeModalOpen] = useState(false);
@@ -95,6 +114,7 @@ export default function AdminProjectsPage() {
     tech: "",
     year: new Date().getFullYear().toString(),
     cover_image_url: "",
+    cover_image_id: null,
     live_url: "",
     github_url: "",
     prototype_url: "",
@@ -156,6 +176,7 @@ export default function AdminProjectsPage() {
       tech: "Next.js, React, Tailwind CSS",
       year: new Date().getFullYear().toString(),
       cover_image_url: "",
+      cover_image_id: null,
       live_url: "",
       github_url: "",
       prototype_url: "",
@@ -194,6 +215,7 @@ export default function AdminProjectsPage() {
       tech: Array.isArray(p.tech) ? p.tech.join(", ") : "",
       year: p.year || "2025",
       cover_image_url: p.cover_image_url || "",
+      cover_image_id: p.cover_image_id || null,
       live_url: p.live_url || "",
       github_url: p.github_url || "",
       prototype_url: p.prototype_url || "",
@@ -214,8 +236,122 @@ export default function AdminProjectsPage() {
     setModalOpen(true);
   };
 
-  // Add item to local gallery list
-  const handleAddGalleryImage = () => {
+  // -------------------------------------------------------------
+  // Media Library Integration
+  // -------------------------------------------------------------
+  const openMediaPicker = async (target = "cover") => {
+    setMediaTarget(target);
+    setMediaModalOpen(true);
+    setMediaLoading(true);
+    const res = await getMediaListAction({ folder: "projects" });
+    if (res.success) {
+      setMediaList(res.data || []);
+    }
+    setMediaLoading(false);
+  };
+
+  const handleSelectFromLibrary = (item) => {
+    const itemUrl = item.public_url || item.storage_path;
+    if (mediaTarget === "cover") {
+      setFormData((prev) => ({
+        ...prev,
+        cover_image_url: itemUrl,
+        cover_image_id: item.id || null,
+      }));
+      showFeedback("success", "Cover image selected from media assets.");
+    } else {
+      const newItem = {
+        id: item.id || `img-${Date.now()}`,
+        url: itemUrl,
+        caption: item.file_name?.replace(/\.[^/.]+$/, "") || "",
+        alt_text: item.alt_text || item.file_name || "",
+        display_order: formData.gallery_images.length + 1,
+      };
+      setFormData((prev) => ({
+        ...prev,
+        gallery_images: [...prev.gallery_images, newItem],
+      }));
+      showFeedback("success", "Image attached to gallery.");
+    }
+    setMediaModalOpen(false);
+  };
+
+  const handleUploadFileDirect = async (file, target = "gallery") => {
+    if (!file) return;
+    if (target === "cover") setUploadingCover(true);
+    else setUploadingGallery(true);
+
+    try {
+      // 1. Get Signed Upload URL from server
+      const intentRes = await createUploadIntentAction({
+        filename: file.name,
+        size_bytes: file.size,
+        mime_type: file.type,
+        folder: "projects",
+        is_draft: false,
+      });
+
+      if (!intentRes.success) throw new Error(intentRes.error);
+
+      const { signedUrl, storagePath, bucket } = intentRes.data;
+
+      // 2. Client direct PUT to signed URL
+      const uploadRes = await fetch(signedUrl, {
+        method: "PUT",
+        headers: { "Content-Type": file.type },
+        body: file,
+      });
+
+      if (!uploadRes.ok) {
+        throw new Error(`Upload failed with HTTP status ${uploadRes.status}`);
+      }
+
+      // 3. Confirm upload on server
+      const confirmRes = await confirmUploadAction({
+        storage_path: storagePath,
+        bucket,
+        folder: "projects",
+        file_name: file.name,
+        size_bytes: file.size,
+        mime_type: file.type,
+        alt_text: file.name.replace(/\.[^/.]+$/, ""),
+      });
+
+      if (!confirmRes.success) throw new Error(confirmRes.error);
+
+      const publicUrl = confirmRes.data?.public_url || storagePath;
+
+      if (target === "cover") {
+        setFormData((prev) => ({
+          ...prev,
+          cover_image_url: publicUrl,
+          cover_image_id: confirmRes.data?.id || null,
+        }));
+        showFeedback("success", "Cover image uploaded and linked.");
+      } else {
+        const newItem = {
+          id: confirmRes.data?.id || `img-${Date.now()}`,
+          url: publicUrl,
+          caption: file.name.replace(/\.[^/.]+$/, ""),
+          alt_text: file.name.replace(/\.[^/.]+$/, ""),
+          display_order: formData.gallery_images.length + 1,
+        };
+        setFormData((prev) => ({
+          ...prev,
+          gallery_images: [...prev.gallery_images, newItem],
+        }));
+        showFeedback("success", "File uploaded and added to gallery.");
+      }
+    } catch (err) {
+      showFeedback("error", err.message || "Failed to upload file.");
+    } finally {
+      if (target === "cover") setUploadingCover(false);
+      else setUploadingGallery(false);
+    }
+  };
+
+  // Add item to local gallery list via URL
+  const handleAddGalleryImageUrl = () => {
     if (!newGalleryUrl.trim()) return;
     const newItem = {
       id: `img-${Date.now()}`,
@@ -236,6 +372,18 @@ export default function AdminProjectsPage() {
   const handleRemoveGalleryImage = (index) => {
     const updated = formData.gallery_images.filter((_, i) => i !== index);
     setFormData({ ...formData, gallery_images: updated });
+  };
+
+  const handleMoveGalleryImage = (index, direction) => {
+    const list = [...formData.gallery_images];
+    const targetIdx = direction === "up" ? index - 1 : index + 1;
+    if (targetIdx < 0 || targetIdx >= list.length) return;
+    const temp = list[index];
+    list[index] = list[targetIdx];
+    list[targetIdx] = temp;
+    // Update order numbers
+    const reordered = list.map((item, idx) => ({ ...item, display_order: idx + 1 }));
+    setFormData({ ...formData, gallery_images: reordered });
   };
 
   const handleSubmit = async (e) => {
@@ -270,6 +418,7 @@ export default function AdminProjectsPage() {
         : [],
       year: formData.year.trim(),
       cover_image_url: formData.cover_image_url.trim() || undefined,
+      cover_image_id: formData.cover_image_id || null,
       live_url: formData.live_url.trim() || undefined,
       github_url: formData.github_url.trim() || undefined,
       prototype_url: formData.prototype_url.trim() || undefined,
@@ -1009,17 +1158,50 @@ export default function AdminProjectsPage() {
                 </div>
               </div>
 
-              {/* SECTION C: VISUAL MEDIA & GALLERY */}
+              {/* SECTION C: VISUAL MEDIA & GALLERY (INTEGRATED WITH MEDIA LIBRARY & LOCAL UPLOADS) */}
               <div className="p-4 rounded-xl bg-surface-200/40 border border-white/5 flex flex-col gap-4">
                 <div className="font-mono text-xs text-orange tracking-widest uppercase flex items-center gap-2">
                   <ImageIcon className="w-3.5 h-3.5" />
                   <span>3. COVER IMAGE & MULTI-IMAGE GALLERY</span>
                 </div>
 
+                {/* Cover Image Controls */}
                 <div>
-                  <label className="block font-mono text-[10px] text-muted tracking-wider uppercase mb-1">
-                    Cover Image URL
-                  </label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="font-mono text-[10px] text-muted tracking-wider uppercase">
+                      Cover Image (Primary Showcase Visual)
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => openMediaPicker("cover")}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-200 border border-white/10 text-[11px] font-mono text-muted hover:text-softwhite hover:border-orange/30 transition-all"
+                      >
+                        <FolderOpen className="w-3 h-3 text-orange" />
+                        <span>Choose from Media Library</span>
+                      </button>
+
+                      <label className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-200 border border-white/10 text-[11px] font-mono text-muted hover:text-softwhite hover:border-orange/30 transition-all cursor-pointer">
+                        {uploadingCover ? (
+                          <Loader2 className="w-3 h-3 animate-spin text-orange" />
+                        ) : (
+                          <Upload className="w-3 h-3 text-orange" />
+                        )}
+                        <span>{uploadingCover ? "Uploading..." : "Upload Cover"}</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          disabled={uploadingCover}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) handleUploadFileDirect(file, "cover");
+                          }}
+                        />
+                      </label>
+                    </div>
+                  </div>
+
                   <input
                     type="text"
                     value={formData.cover_image_url}
@@ -1029,14 +1211,62 @@ export default function AdminProjectsPage() {
                     placeholder="https://... or /images/..."
                     className="w-full px-3.5 py-2.5 rounded-lg bg-surface-200 border border-white/10 text-xs text-softwhite focus:outline-none focus:border-orange"
                   />
+                  {formData.cover_image_url && (
+                    <div className="mt-2 flex items-center gap-3">
+                      <div className="w-16 h-10 rounded-lg overflow-hidden border border-white/10 bg-obsidian shrink-0">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={formData.cover_image_url}
+                          alt="Cover preview"
+                          className="w-full h-full object-cover"
+                          onError={(e) => (e.currentTarget.style.display = "none")}
+                        />
+                      </div>
+                      <span className="font-mono text-[10px] text-muted truncate">
+                        Linked: {formData.cover_image_url}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
-                {/* Gallery Items List */}
-                <div>
-                  <label className="block font-mono text-[10px] text-muted tracking-wider uppercase mb-2">
-                    Gallery Images ({formData.gallery_images.length})
-                  </label>
+                {/* Multi-Image Gallery Manager */}
+                <div className="pt-3 border-t border-white/5">
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="font-mono text-[10px] text-muted tracking-wider uppercase">
+                      Gallery Images ({formData.gallery_images.length})
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => openMediaPicker("gallery")}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-200 border border-white/10 text-[11px] font-mono text-muted hover:text-softwhite hover:border-orange/30 transition-all"
+                      >
+                        <FolderOpen className="w-3 h-3 text-orange" />
+                        <span>Add from Library</span>
+                      </button>
 
+                      <label className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-200 border border-white/10 text-[11px] font-mono text-muted hover:text-softwhite hover:border-orange/30 transition-all cursor-pointer">
+                        {uploadingGallery ? (
+                          <Loader2 className="w-3 h-3 animate-spin text-orange" />
+                        ) : (
+                          <Upload className="w-3 h-3 text-orange" />
+                        )}
+                        <span>{uploadingGallery ? "Uploading..." : "Upload File"}</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          disabled={uploadingGallery}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) handleUploadFileDirect(file, "gallery");
+                          }}
+                        />
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Attached Gallery List */}
                   {formData.gallery_images.length > 0 && (
                     <div className="flex flex-col gap-2 mb-3">
                       {formData.gallery_images.map((item, idx) => (
@@ -1044,35 +1274,68 @@ export default function AdminProjectsPage() {
                           key={item.id || idx}
                           className="p-2.5 rounded-lg bg-surface-200 border border-white/10 flex items-center justify-between gap-3 text-xs"
                         >
-                          <div className="flex items-center gap-2.5 overflow-hidden">
-                            <span className="font-mono text-orange text-[10px]">
+                          <div className="flex items-center gap-3 overflow-hidden">
+                            <span className="font-mono text-orange text-[10px] font-bold">
                               #{idx + 1}
                             </span>
-                            <span className="font-mono text-softwhite truncate max-w-xs">
-                              {item.url}
-                            </span>
-                            {item.caption && (
-                              <span className="text-muted text-[11px] truncate">
-                                ({item.caption})
-                              </span>
-                            )}
+                            <div className="w-10 h-7 rounded border border-white/10 bg-obsidian shrink-0 overflow-hidden">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                src={item.url}
+                                alt={item.alt_text || "Thumb"}
+                                className="w-full h-full object-cover"
+                                onError={(e) => (e.currentTarget.style.display = "none")}
+                              />
+                            </div>
+                            <div className="overflow-hidden">
+                              <div className="font-mono text-softwhite truncate max-w-xs text-[11px]">
+                                {item.caption || item.url}
+                              </div>
+                              {item.alt_text && (
+                                <div className="text-muted text-[10px] truncate">
+                                  Alt: {item.alt_text}
+                                </div>
+                              )}
+                            </div>
                           </div>
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveGalleryImage(idx)}
-                            className="p-1 rounded text-muted hover:text-red-400"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
+
+                          <div className="flex items-center gap-1 shrink-0">
+                            <button
+                              type="button"
+                              title="Move up"
+                              disabled={idx === 0}
+                              onClick={() => handleMoveGalleryImage(idx, "up")}
+                              className="p-1 rounded text-muted hover:text-softwhite disabled:opacity-30"
+                            >
+                              <ArrowUp className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              title="Move down"
+                              disabled={idx === formData.gallery_images.length - 1}
+                              onClick={() => handleMoveGalleryImage(idx, "down")}
+                              className="p-1 rounded text-muted hover:text-softwhite disabled:opacity-30"
+                            >
+                              <ArrowDown className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              title="Remove image"
+                              onClick={() => handleRemoveGalleryImage(idx)}
+                              className="p-1 rounded text-muted hover:text-red-400"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
                         </div>
                       ))}
                     </div>
                   )}
 
-                  {/* Add New Gallery Item Sub-Form */}
+                  {/* Add New Gallery Item by Direct URL Sub-Form */}
                   <div className="p-3 rounded-lg border border-dashed border-white/10 bg-surface-100/50 flex flex-col gap-2.5">
-                    <div className="text-[10px] font-mono text-muted uppercase">
-                      Add Gallery Image:
+                    <div className="text-[10px] font-mono text-muted uppercase flex items-center justify-between">
+                      <span>Add External Image by URL:</span>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                       <input
@@ -1099,10 +1362,10 @@ export default function AdminProjectsPage() {
                         />
                         <button
                           type="button"
-                          onClick={handleAddGalleryImage}
+                          onClick={handleAddGalleryImageUrl}
                           className="px-3 py-1.5 rounded-lg bg-surface-200 hover:bg-orange hover:text-obsidian text-xs font-mono text-softwhite transition-colors"
                         >
-                          Add
+                          Add URL
                         </button>
                       </div>
                     </div>
@@ -1297,6 +1560,81 @@ export default function AdminProjectsPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ------------------------------------------------------------- */}
+      {/* MEDIA ASSETS PICKER MODAL */}
+      {/* ------------------------------------------------------------- */}
+      {mediaModalOpen && (
+        <div className="fixed inset-0 z-50 bg-obsidian/90 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="w-full max-w-2xl bg-surface-100 border border-white/15 rounded-2xl p-6 relative shadow-2xl max-h-[80vh] flex flex-col">
+            <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
+              <div className="flex items-center gap-2">
+                <FolderOpen className="w-4 h-4 text-orange" />
+                <h3 className="font-display text-base font-bold text-softwhite">
+                  SELECT FROM MEDIA ASSETS
+                </h3>
+              </div>
+              <button
+                onClick={() => setMediaModalOpen(false)}
+                className="p-1 rounded text-muted hover:text-softwhite"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <p className="font-sans text-xs text-muted/70 mb-4">
+              Select an uploaded file to attach as{" "}
+              <strong className="text-orange">{mediaTarget === "cover" ? "Cover Image" : "Gallery Asset"}</strong>.
+            </p>
+
+            <div className="flex-1 overflow-y-auto pr-1">
+              {mediaLoading ? (
+                <div className="py-16 text-center font-mono text-xs text-muted">
+                  Loading media assets...
+                </div>
+              ) : mediaList.length === 0 ? (
+                <div className="py-16 text-center font-mono text-xs text-muted/60 border border-dashed border-white/10 rounded-2xl">
+                  No assets uploaded yet in Media Library. Use &quot;Upload File&quot; to upload directly.
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {mediaList.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => handleSelectFromLibrary(item)}
+                      className="p-2 rounded-xl bg-surface-200 border border-white/10 hover:border-orange/50 transition-all text-left flex flex-col gap-2 group"
+                    >
+                      <div className="w-full h-24 rounded-lg bg-obsidian overflow-hidden border border-white/5 relative">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={item.public_url || item.storage_path}
+                          alt={item.alt_text || item.file_name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                          onError={(e) => (e.currentTarget.style.display = "none")}
+                        />
+                      </div>
+                      <div className="font-mono text-[10px] text-softwhite truncate w-full">
+                        {item.file_name}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="pt-4 border-t border-white/10 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setMediaModalOpen(false)}
+                className="px-4 py-2 rounded-xl border border-white/10 bg-surface-200/50 text-xs font-mono text-muted hover:text-softwhite transition-colors"
+              >
+                CLOSE
+              </button>
+            </div>
           </div>
         </div>
       )}
