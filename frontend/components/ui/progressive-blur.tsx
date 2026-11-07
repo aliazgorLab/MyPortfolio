@@ -55,8 +55,11 @@ export function ProgressiveBlur({
       const documentHeight = document.documentElement.scrollHeight;
       const distanceToBottom = documentHeight - (scrollY + windowHeight);
 
-      // Smoothly fade out the blur when approaching the bottom footer (within 320px)
-      if (distanceToBottom < 320) {
+      // Smoothly fade out the blur when at the top hero section (within 100px) or approaching footer (within 320px)
+      if (scrollY < 100) {
+        const topFactor = Math.max(0, Math.min(1, scrollY / 100));
+        setScrollOpacity(topFactor);
+      } else if (distanceToBottom < 320) {
         const factor = Math.max(0, Math.min(1, (distanceToBottom - 20) / 300));
         setScrollOpacity(factor);
       } else {

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LetsTalkButton } from "@/components/ui/lets-talk-button";
+import { SignatureLogo } from "@/components/ui/signature-logo";
 
 const NAV_LINKS = [
   { label: "Work", href: "#projects" },
@@ -85,11 +86,12 @@ export function Navigation() {
       <header className="relative z-40 w-full border-b border-white/[0.06] bg-transparent">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 lg:px-8">
           <Link
-            className="font-mono text-xl font-bold tracking-tight text-softwhite transition hover:opacity-85"
+            className="inline-flex items-center transition hover:opacity-95"
             href="/"
             onClick={handleLogoClick}
+            aria-label="Ali Azgor — Home"
           >
-            AZ<span className="text-orange">.</span>
+            <SignatureLogo size="md" />
           </Link>
 
           <nav className="hidden items-center gap-10 md:flex">
@@ -130,11 +132,12 @@ export function Navigation() {
           >
             {/* Logo */}
             <Link
-              className="font-mono text-lg font-bold tracking-tight text-softwhite transition hover:opacity-85"
+              className="inline-flex items-center transition hover:opacity-95"
               href="/"
               onClick={handleLogoClick}
+              aria-label="Ali Azgor — Home"
             >
-              AZ<span className="text-orange">.</span>
+              <SignatureLogo size="sm" />
             </Link>
 
             {/* Navigation Links */}
