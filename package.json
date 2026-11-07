@@ -15,6 +15,7 @@
     "build:frontend": "npm --workspace=frontend run build",
     "start": "npm --workspace=frontend run start",
     "start:backend": "npm --workspace=backend run start",
-    "test:security": "npm --workspace=backend run test:security"
+    "test:security": "npm --workspace=backend run test:security",
+    "provision:admin": "npm --workspace=backend run provision:admin"
   }
 }

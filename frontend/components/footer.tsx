@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Mail, Terminal, Clock } from "lucide-react";
+import { ArrowUpRight, Mail, Terminal, Clock, Lock } from "lucide-react";
 import { Github, Linkedin } from "@/components/ui/Icons";
 
 export function Footer() {
@@ -148,7 +148,7 @@ export function Footer() {
 
         {/* Bottom Colophon Bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-neutral-900 pt-8 sm:flex-row">
-          <div className="flex items-center gap-3 text-xs text-neutral-500 font-mono">
+          <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-neutral-500 font-mono sm:justify-start">
             <span>&copy; {new Date().getFullYear()} Md Ali Azgor</span>
             <span>&middot;</span>
             <span className="flex items-center gap-1">
@@ -157,14 +157,28 @@ export function Footer() {
             </span>
           </div>
 
-          <button
-            onClick={scrollToTop}
-            className="group flex items-center gap-1 text-xs font-mono text-neutral-400 transition hover:text-white"
-            aria-label="Back to top"
-          >
-            <span>Back to top</span>
-            <span className="transition-transform group-hover:-translate-y-0.5">&uarr;</span>
-          </button>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/admin/login"
+              className="group inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-xs font-mono text-neutral-500 transition-all duration-200 hover:text-lavender hover:bg-neutral-900/80 focus:outline-none focus:ring-1 focus:ring-lavender/30"
+              aria-label="Admin Portal Login"
+              title="Admin Portal"
+            >
+              <Lock className="h-3 w-3 text-neutral-500 transition-transform duration-200 group-hover:scale-110 group-hover:text-lavender" />
+              <span className="tracking-wider">Admin</span>
+            </Link>
+
+            <span className="text-neutral-800 hidden sm:inline">&middot;</span>
+
+            <button
+              onClick={scrollToTop}
+              className="group flex items-center gap-1 text-xs font-mono text-neutral-400 transition hover:text-white"
+              aria-label="Back to top"
+            >
+              <span>Back to top</span>
+              <span className="transition-transform group-hover:-translate-y-0.5">&uarr;</span>
+            </button>
+          </div>
         </div>
       </div>
     </footer>

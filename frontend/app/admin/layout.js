@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { getCurrentUserAction, logoutAction } from "@/lib/actions/auth";
 import {
   LayoutDashboard,
@@ -42,17 +43,22 @@ export default async function AdminLayout({ children }) {
   const headerList = await headers();
   const pathname = headerList.get("x-pathname") || "";
 
-  // If on login route, render bare children without sidebar
+  // If on login route, render bare children without sidebar or access checks
   if (pathname.includes("/admin/login")) {
     return <>{children}</>;
   }
 
+  // Server-side strict authorization enforcement for all /admin routes
   const userRes = await getCurrentUserAction();
+  if (!userRes.success || userRes.data?.profile?.role !== "admin") {
+    redirect("/admin/login");
+  }
+
   const profile = userRes.data?.profile;
 
   return (
     <div className="min-h-screen bg-obsidian text-softwhite flex noise-bg">
-      {/* Sidebar */}
+      {/* Sidebar Desktop */}
       <aside className="w-64 border-r border-white/10 bg-surface-100/50 backdrop-blur-2xl flex flex-col justify-between shrink-0 hidden md:flex">
         <div>
           {/* Brand */}
@@ -118,7 +124,7 @@ export default async function AdminLayout({ children }) {
             <form action={logoutAction} className="shrink-0">
               <button
                 type="submit"
-                title="Sign out"
+                title="Sign out of Admin Dashboard"
                 className="p-2 rounded-lg border border-white/10 bg-surface-200/40 text-muted hover:text-red-400 hover:border-red-400/30 transition-all"
               >
                 <LogOut className="w-4 h-4" />
@@ -139,10 +145,19 @@ export default async function AdminLayout({ children }) {
           <div className="flex items-center gap-3">
             <a
               href="/"
-              className="text-xs font-mono text-lavender hover:underline"
+              className="text-xs font-mono text-muted hover:text-lavender transition-colors"
             >
               VISIT SITE →
             </a>
+            <form action={logoutAction}>
+              <button
+                type="submit"
+                title="Sign out"
+                className="p-1.5 rounded-lg border border-white/10 bg-surface-200/40 text-muted hover:text-red-400 transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </form>
           </div>
         </header>
 
@@ -153,4 +168,3 @@ export default async function AdminLayout({ children }) {
     </div>
   );
 }
-

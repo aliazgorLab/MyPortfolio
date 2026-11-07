@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { loginSchema, updateProfileSchema } from "@/lib/validations/auth";
 import { requireAdmin, successResponse, errorResponse } from "./helpers";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function loginAction(credentials) {
   try {
@@ -13,13 +14,28 @@ export async function loginAction(credentials) {
       return errorResponse("Supabase is not configured. Please check .env.local.");
     }
 
+    // Support both direct Email and custom Admin ID mapping
+    const rawIdentifier = (validated.identifier || validated.email || "").trim();
+    let targetEmail = rawIdentifier;
+
+    if (!targetEmail.includes("@")) {
+      const configuredAdminId = (process.env.ADMIN_ID || "admin").toLowerCase();
+      const configuredAdminEmail = process.env.ADMIN_EMAIL || "ali.azgor.0810@gmail.com";
+
+      if (rawIdentifier.toLowerCase() === configuredAdminId) {
+        targetEmail = configuredAdminEmail;
+      } else {
+        return errorResponse("Invalid Admin ID or credentials.");
+      }
+    }
+
     const { data, error } = await supabase.auth.signInWithPassword({
-      email: validated.email,
+      email: targetEmail,
       password: validated.password,
     });
 
     if (error) {
-      return errorResponse(error.message);
+      return errorResponse(error.message === "Invalid login credentials" ? "Invalid Admin ID/Email or password." : error.message);
     }
 
     // Verify admin role and pending deletion state
@@ -31,19 +47,20 @@ export async function loginAction(credentials) {
 
     if (profileError || !profile) {
       await supabase.auth.signOut();
-      return errorResponse("Administrator profile not found.");
+      return errorResponse("Administrator profile record not found.");
     }
 
     if (profile.is_pending_deletion) {
       await supabase.auth.signOut();
-      return errorResponse("Account is scheduled for deletion.");
+      return errorResponse("Access denied: Account is scheduled for deletion.");
     }
 
     if (profile.role !== "admin") {
       await supabase.auth.signOut();
-      return errorResponse("Access denied: only administrators may sign in.");
+      return errorResponse("Access denied: only administrators may access this portal.");
     }
 
+    revalidatePath("/admin");
     return successResponse({ user: data.user, profile }, "Login successful.");
   } catch (err) {
     return errorResponse(err);
@@ -56,10 +73,12 @@ export async function logoutAction() {
     if (supabase) {
       await supabase.auth.signOut();
     }
-    return successResponse(null, "Signed out successfully.");
   } catch (err) {
-    return errorResponse(err);
+    console.warn("Sign out cleanup notice:", err.message);
   }
+
+  revalidatePath("/admin");
+  redirect("/admin/login");
 }
 
 export async function getCurrentUserAction() {
@@ -95,4 +114,3 @@ export async function updateProfileAction(payload) {
     return errorResponse(err);
   }
 }
-
