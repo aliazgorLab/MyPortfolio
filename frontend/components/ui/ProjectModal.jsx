@@ -35,7 +35,7 @@ export default function ProjectModal({ project, isOpen, onClose }) {
         {/* Top Modal Header Bar */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-surface-200/50 backdrop-blur-md">
           <div className="flex items-center gap-3">
-            <span className="font-mono text-xs text-lavender font-semibold">
+            <span className="font-mono text-xs text-orange font-semibold">
               PROJECT // {project.number}
             </span>
             <span className="font-mono text-xs text-muted uppercase">
@@ -65,7 +65,7 @@ export default function ProjectModal({ project, isOpen, onClose }) {
             <div className="absolute inset-0 bg-gradient-to-t from-obsidian/80 via-transparent to-transparent" />
             <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end text-softwhite">
               <div>
-                <span className="font-mono text-[11px] text-lavender tracking-widest uppercase">
+                <span className="font-mono text-[11px] text-orange tracking-widest uppercase">
                   {project.tagline}
                 </span>
                 <h3 className="font-display text-2xl md:text-3xl font-bold tracking-tight">
@@ -83,7 +83,7 @@ export default function ProjectModal({ project, isOpen, onClose }) {
             {/* Overview & Features (8 cols) */}
             <div className="lg:col-span-8 flex flex-col gap-6">
               <div>
-                <h4 className="font-mono text-xs text-lavender tracking-widest uppercase mb-3">
+                <h4 className="font-mono text-xs text-orange tracking-widest uppercase mb-3">
                   // PROJECT OVERVIEW
                 </h4>
                 <p className="font-sans text-muted/90 text-base leading-relaxed">
@@ -93,7 +93,7 @@ export default function ProjectModal({ project, isOpen, onClose }) {
 
               {project.features && (
                 <div>
-                  <h4 className="font-mono text-xs text-lavender tracking-widest uppercase mb-3">
+                  <h4 className="font-mono text-xs text-orange tracking-widest uppercase mb-3">
                     // KEY IMPLEMENTATIONS & ARCHITECTURE
                   </h4>
                   <ul className="flex flex-col gap-2.5">
@@ -102,7 +102,7 @@ export default function ProjectModal({ project, isOpen, onClose }) {
                         key={idx}
                         className="flex items-start gap-3 font-sans text-sm text-softwhite/90"
                       >
-                        <CheckCircle2 className="w-4 h-4 text-lavender shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-4 h-4 text-orange shrink-0 mt-0.5" />
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -145,7 +145,7 @@ export default function ProjectModal({ project, isOpen, onClose }) {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-lavender text-obsidian font-mono text-xs font-semibold tracking-wider uppercase hover:bg-softwhite transition-colors"
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-orange text-obsidian font-mono text-xs font-semibold tracking-wider uppercase hover:bg-orange-light transition-colors"
                   >
                     <span>VISIT REPOSITORY / APP</span>
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -156,7 +156,7 @@ export default function ProjectModal({ project, isOpen, onClose }) {
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded border border-white/10 bg-surface-100 text-softwhite font-mono text-xs font-medium tracking-wider uppercase hover:border-lavender hover:text-lavender transition-colors"
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded border border-white/10 bg-surface-100 text-softwhite font-mono text-xs font-medium tracking-wider uppercase hover:border-orange hover:text-orange transition-colors"
                   >
                     <GithubIcon className="w-3.5 h-3.5" />
                     <span>VIEW SOURCE</span>

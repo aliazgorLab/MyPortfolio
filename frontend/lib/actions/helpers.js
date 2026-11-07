@@ -82,7 +82,18 @@ export function successResponse(data, message = "Operation completed successfull
 }
 
 export function errorResponse(error, fallbackMessage = "An unexpected error occurred") {
-  const message = error?.message || (typeof error === "string" ? error : fallbackMessage);
+  let message = error?.message || (typeof error === "string" ? error : fallbackMessage);
+  
+  // Sanitize raw network / DNS / server fetch errors into clean user messages
+  if (
+    message.includes("fetch failed") ||
+    message.includes("ENOTFOUND") ||
+    message.includes("ECONNREFUSED") ||
+    message.includes("Failed to fetch")
+  ) {
+    message = "Unable to reach database service. Please check your credentials or try again.";
+  }
+  
   return { success: false, data: null, error: message };
 }
 

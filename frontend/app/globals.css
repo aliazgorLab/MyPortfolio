@@ -4,18 +4,41 @@
 
 :root {
   --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-monument: 'Anton', 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --color-obsidian: #08090b;
-  --color-charcoal: #111318;
-  --color-graphite: #1c1e24;
-  --color-mist: #dad9d6;
-  --color-softwhite: #f3f2ef;
-  --color-muted: #898b92;
-  --color-lavender: #c7b8ff;
-  --color-lavender-glow: rgba(199, 184, 255, 0.2);
-  --color-cyan: #58bfff;
-  --color-orange: #ff791f;
+
+  /* Centralized Semantic Tokens — Cinematic Orange & Obsidian Black */
+  --background-primary: #08090b;
+  --background-secondary: #111216;
+  --surface-primary: #18191e;
+  --surface-elevated: #222329;
+  --text-primary: #f5f3f0;
+  --text-secondary: #b1b1ba;
+  --text-muted: #85858f;
+  --accent-primary: #f46a45;
+  --accent-hover: #ff8662;
+  --accent-deep: #9b3825;
+  --border-subtle: #303138;
+  --border-active: #f46a45;
+  --focus-ring: rgba(244, 106, 69, 0.4);
+  --accent-glow: rgba(244, 106, 69, 0.25);
+  --gradient-brand: linear-gradient(135deg, #ff7a50 0%, #e65a32 28%, #ff8a65 48%, #e65a32 68%, #762316 100%);
+
+  /* Legacy variable mappings to maintain compatibility */
+  --color-obsidian: var(--background-primary);
+  --color-charcoal: var(--background-secondary);
+  --color-graphite: var(--surface-primary);
+  --color-mist: var(--text-secondary);
+  --color-softwhite: var(--text-primary);
+  --color-muted: var(--text-muted);
+  --color-orange: var(--accent-primary);
+  --color-orange-hover: var(--accent-hover);
+  --color-burnt-orange: #e65a32;
+  --color-dark-crimson: #762316;
+  --color-lavender: var(--accent-primary);
+  --color-lavender-glow: var(--accent-glow);
+  --color-cyan: var(--accent-hover);
 }
 
 * {
@@ -25,28 +48,27 @@
 html {
   scroll-behavior: smooth;
   background-color: #08090b;
-  color: #f3f2ef;
+  color: #f5f3f0;
   color-scheme: dark;
 }
 
 body {
   background-color: #08090b;
-  color: #f3f2ef;
+  color: #f5f3f0;
   font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  selection-background-color: #c7b8ff;
+  selection-background-color: #f46a45;
 }
 
-
 ::selection {
-  background: #c7b8ff;
+  background: #f46a45;
   color: #08090b;
 }
 
 ::-moz-selection {
-  background: #c7b8ff;
+  background: #f46a45;
   color: #08090b;
 }
 
@@ -60,12 +82,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #252a36;
+  background: #222329;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #c7b8ff;
+  background: #f46a45;
 }
 
 /* Atmospheric Noise Layer */
@@ -94,13 +116,17 @@ body {
 }
 
 .glass-panel-hover:hover {
-  border-color: rgba(199, 184, 255, 0.3);
-  box-shadow: 0 0 30px rgba(199, 184, 255, 0.08);
+  border-color: rgba(244, 106, 69, 0.4);
+  box-shadow: 0 0 30px rgba(244, 106, 69, 0.12);
 }
 
 /* Text glow effect */
+.text-glow-orange {
+  text-shadow: 0 0 24px rgba(244, 106, 69, 0.45);
+}
+
 .text-glow-lavender {
-  text-shadow: 0 0 24px rgba(199, 184, 255, 0.4);
+  text-shadow: 0 0 24px rgba(244, 106, 69, 0.45);
 }
 
 /* Display typography fluid utility */
@@ -254,4 +280,31 @@ body {
 .animate-internal-light {
   animation: internal-light-sweep 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
+
+/* ============================================================ */
+/* Cinematic Hero Background Typography Animation               */
+/* ============================================================ */
+@keyframes portfolio-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-portfolio-shimmer {
+  background-size: 220% 220%;
+  animation: portfolio-shimmer 12s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-portfolio-shimmer {
+    animation: none !important;
+  }
+}
+
 

@@ -8,7 +8,7 @@ export default function Philosophy({ principlesData = null }) {
     <section className="py-28 md:py-36 px-6 bg-obsidian relative border-t border-white/5 noise-bg">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="flex items-center gap-2 text-xs font-mono text-lavender tracking-widest uppercase mb-4">
+        <div className="flex items-center gap-2 text-xs font-mono text-orange tracking-widest uppercase mb-4">
           <span>07 //</span>
           <span>WORKING PRINCIPLES</span>
         </div>
@@ -16,7 +16,7 @@ export default function Philosophy({ principlesData = null }) {
         <div className="max-w-4xl mb-20">
           <h2 className="font-display-heading text-softwhite tracking-tight">
             THE DETAILS ARE
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-softwhite via-mist to-lavender">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-softwhite via-mist to-orange">
               THE EXPERIENCE.
             </span>
           </h2>
@@ -30,10 +30,10 @@ export default function Philosophy({ principlesData = null }) {
           {activePrinciples.map((p) => (
             <div
               key={p.number}
-              className="relative p-8 rounded-2xl border border-white/10 bg-surface-100/40 backdrop-blur-md flex flex-col justify-between group hover:border-lavender/40 hover:bg-surface-100/70 transition-all duration-300"
+              className="relative p-8 rounded-2xl border border-white/10 bg-surface-100/40 backdrop-blur-md flex flex-col justify-between group hover:border-orange/40 hover:bg-surface-100/70 transition-all duration-300"
             >
               <div>
-                <span className="font-mono text-3xl font-bold text-lavender/60 group-hover:text-lavender transition-colors block mb-6">
+                <span className="font-mono text-3xl font-bold text-orange/60 group-hover:text-orange transition-colors block mb-6">
                   {p.number}
                 </span>
 

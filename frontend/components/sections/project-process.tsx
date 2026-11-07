@@ -27,13 +27,13 @@ const STEPS: StepItem[] = [
     title: "Proposal & Architecture",
     description:
       "Detailed technical proposal, system architecture diagrams, database schema mapping, and timeline estimation.",
-    icon: <Compass className="h-4 w-4" />,
+    icon: <Compass className="h-4 w-4 text-orange" />,
     rotation: "rotate-[12deg] hover:rotate-0",
     pin: {
-      color: "bg-blue-500",
-      shadow: "shadow-[0_8px_20px_rgba(59,130,246,0.6)]",
+      color: "bg-orange",
+      shadow: "shadow-[0_8px_20px_rgba(244,106,69,0.55)]",
     },
-    cardGradient: "from-blue-500/10 via-transparent to-amber-500/10",
+    cardGradient: "from-orange/10 via-transparent to-orange-deep/10",
   },
   {
     id: "step-2",
@@ -42,13 +42,13 @@ const STEPS: StepItem[] = [
     title: "UI/UX & Design Tokens",
     description:
       "Modern, responsive layouts designed in Figma with obsessive focus on micro-interactions, accessibility, and typography.",
-    icon: <Palette className="h-4 w-4" />,
+    icon: <Palette className="h-4 w-4 text-orange-light" />,
     rotation: "-rotate-[13deg] hover:rotate-0",
     pin: {
-      color: "bg-purple-500",
-      shadow: "shadow-[0_8px_20px_rgba(168,85,247,0.6)]",
+      color: "bg-orange-light",
+      shadow: "shadow-[0_8px_20px_rgba(255,134,98,0.55)]",
     },
-    cardGradient: "from-purple-500/10 via-transparent to-pink-500/10",
+    cardGradient: "from-orange-light/10 via-transparent to-orange/10",
   },
   {
     id: "step-3",
@@ -57,13 +57,13 @@ const STEPS: StepItem[] = [
     title: "Full-Stack Development",
     description:
       "Scalable Next.js, React, and TypeScript implementation with clean API contracts, modular state, and zero technical debt.",
-    icon: <Code2 className="h-4 w-4" />,
+    icon: <Code2 className="h-4 w-4 text-orange-burnt" />,
     rotation: "rotate-[11deg] hover:rotate-0",
     pin: {
-      color: "bg-cyan-500",
-      shadow: "shadow-[0_8px_20px_rgba(6,182,212,0.6)]",
+      color: "bg-orange-burnt",
+      shadow: "shadow-[0_8px_20px_rgba(230,90,50,0.55)]",
     },
-    cardGradient: "from-cyan-500/10 via-transparent to-blue-500/10",
+    cardGradient: "from-orange-burnt/10 via-transparent to-orange-deep/10",
   },
   {
     id: "step-4",
@@ -72,13 +72,13 @@ const STEPS: StepItem[] = [
     title: "Security & Performance",
     description:
       "Sub-second TTFB, Lighthouse 100 audits, zero layout shifts (CLS), WCAG accessibility compliance, and stress testing.",
-    icon: <ShieldCheck className="h-4 w-4" />,
+    icon: <ShieldCheck className="h-4 w-4 text-orange-deep" />,
     rotation: "-rotate-[14deg] hover:rotate-0",
     pin: {
-      color: "bg-emerald-500",
-      shadow: "shadow-[0_8px_20px_rgba(16,185,129,0.6)]",
+      color: "bg-orange-deep",
+      shadow: "shadow-[0_8px_20px_rgba(155,56,37,0.55)]",
     },
-    cardGradient: "from-emerald-500/10 via-transparent to-teal-500/10",
+    cardGradient: "from-orange-deep/10 via-transparent to-orange-crimson/10",
   },
   {
     id: "step-5",
@@ -87,13 +87,13 @@ const STEPS: StepItem[] = [
     title: "Edge Launch & CI/CD",
     description:
       "Zero-downtime automated edge deployments on Vercel, DNS and SSL configuration, telemetry, and client handover.",
-    icon: <Rocket className="h-4 w-4" />,
+    icon: <Rocket className="h-4 w-4 text-orange" />,
     rotation: "rotate-[10deg] hover:rotate-0",
     pin: {
-      color: "bg-amber-500",
-      shadow: "shadow-[0_8px_20px_rgba(245,158,11,0.6)]",
+      color: "bg-orange",
+      shadow: "shadow-[0_8px_20px_rgba(244,106,69,0.55)]",
     },
-    cardGradient: "from-amber-500/10 via-transparent to-orange-500/10",
+    cardGradient: "from-orange/10 via-transparent to-orange-burnt/10",
   },
 ];
 
@@ -172,7 +172,7 @@ export function ProjectProcess() {
                       damping: 18,
                       delay: 0.1,
                     }}
-                    className={`group relative w-72 sm:w-80 min-h-[340px] rounded-[30px] border border-neutral-800/90 bg-neutral-950/90 p-7 shadow-2xl backdrop-blur-xl transition-all duration-500 ease-out cursor-grab active:cursor-grabbing hover:scale-105 hover:z-30 hover:border-neutral-700 ${item.rotation}`}
+                    className={`group relative w-72 sm:w-80 min-h-[340px] rounded-[30px] border border-white/10 bg-surface-primary/90 p-7 shadow-2xl backdrop-blur-xl transition-all duration-500 ease-out cursor-grab active:cursor-grabbing hover:scale-105 hover:z-30 hover:border-orange/50 hover:shadow-[0_0_30px_rgba(244,106,69,0.15)] ${item.rotation}`}
                   >
                     {/* Inner Ambient Gradient Wash */}
                     <div
@@ -199,30 +199,30 @@ export function ProjectProcess() {
                       <div>
                         {/* Step Number & Tag */}
                         <div className="flex items-center justify-between">
-                          <span className="font-mono text-3xl font-black italic tracking-tighter text-neutral-200">
+                          <span className="font-mono text-3xl font-black italic tracking-tighter text-softwhite">
                             {item.stepNumber}
                           </span>
-                          <span className="flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-widest uppercase text-neutral-400">
+                          <span className="flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-widest uppercase text-muted">
                             {item.icon}
                             {item.tag}
                           </span>
                         </div>
 
                         {/* Title */}
-                        <h3 className="mt-4 font-mono text-xl font-bold tracking-tight text-white group-hover:text-neutral-100">
+                        <h3 className="mt-4 font-mono text-xl font-bold tracking-tight text-softwhite group-hover:text-orange-light transition-colors">
                           {item.title}
                         </h3>
 
                         {/* Description */}
-                        <p className="mt-3 text-sm leading-relaxed text-neutral-400 font-normal">
+                        <p className="mt-3 text-sm leading-relaxed text-muted/90 font-normal">
                           {item.description}
                         </p>
                       </div>
 
                       {/* Card Bottom Meta */}
-                      <div className="mt-6 flex items-center justify-between border-t border-neutral-900 pt-3 text-[11px] font-mono text-neutral-500">
+                      <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-3 text-[11px] font-mono text-muted/60">
                         <span>Phase {item.stepNumber}</span>
-                        <span className="text-neutral-400 group-hover:text-white transition-colors">
+                        <span className="text-muted group-hover:text-orange transition-colors">
                           Complete &rarr;
                         </span>
                       </div>

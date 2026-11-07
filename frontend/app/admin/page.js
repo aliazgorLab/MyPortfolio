@@ -77,7 +77,7 @@ export default async function AdminDashboardPage() {
       {/* Header Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-white/10">
         <div>
-          <div className="flex items-center gap-2 font-mono text-xs text-lavender tracking-widest uppercase mb-2">
+          <div className="flex items-center gap-2 font-mono text-xs text-orange tracking-widest uppercase mb-2">
             <span>TERMINAL // 01</span>
             <span>·</span>
             <span>OPERATIONAL METRICS</span>
@@ -93,16 +93,16 @@ export default async function AdminDashboardPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/admin/projects"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-lavender text-obsidian font-mono text-xs font-semibold tracking-wider uppercase hover:bg-softwhite transition-all shadow-[0_0_20px_rgba(199,184,255,0.25)]"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-orange text-obsidian font-mono text-xs font-semibold tracking-wider uppercase hover:bg-orange-light transition-all shadow-[0_0_20px_rgba(244,106,69,0.25)]"
           >
             <Plus className="w-4 h-4" />
             <span>NEW PROJECT</span>
           </Link>
           <Link
             href="/admin/media"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 bg-surface-100 text-xs font-mono tracking-wider uppercase text-softwhite hover:border-lavender/40 transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 bg-surface-100 text-xs font-mono tracking-wider uppercase text-softwhite hover:border-orange/40 transition-all"
           >
-            <ImageIcon className="w-4 h-4 text-lavender" />
+            <ImageIcon className="w-4 h-4 text-orange" />
             <span>UPLOAD MEDIA</span>
           </Link>
         </div>
@@ -116,13 +116,13 @@ export default async function AdminDashboardPage() {
             <Link
               key={card.title}
               href={card.href}
-              className="p-6 rounded-2xl border border-white/10 bg-surface-100/50 backdrop-blur-md hover:border-lavender/40 hover:bg-surface-100/80 transition-all duration-300 group flex flex-col justify-between"
+              className="p-6 rounded-2xl border border-white/10 bg-surface-100/50 backdrop-blur-md hover:border-orange/40 hover:bg-surface-100/80 transition-all duration-300 group flex flex-col justify-between"
             >
               <div className="flex items-center justify-between mb-4">
                 <span className="font-mono text-[10px] text-muted tracking-widest uppercase">
                   {card.title}
                 </span>
-                <div className="p-2 rounded-lg bg-surface-200 border border-white/5 text-lavender group-hover:border-lavender/30 transition-colors">
+                <div className="p-2 rounded-lg bg-surface-200 border border-white/5 text-orange group-hover:border-orange/30 transition-colors">
                   <Icon className="w-4 h-4" />
                 </div>
               </div>
@@ -133,7 +133,7 @@ export default async function AdminDashboardPage() {
                 </div>
                 <div className="mt-2 flex items-center justify-between text-xs font-mono text-muted/80">
                   <span>{card.secondary}</span>
-                  <ArrowUpRight className="w-4 h-4 text-muted group-hover:text-lavender group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                  <ArrowUpRight className="w-4 h-4 text-muted group-hover:text-orange group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                 </div>
               </div>
             </Link>
@@ -154,7 +154,7 @@ export default async function AdminDashboardPage() {
           </div>
           <Link
             href="/admin/projects"
-            className="text-xs font-mono text-lavender hover:underline tracking-wider uppercase"
+            className="text-xs font-mono text-orange hover:underline tracking-wider uppercase"
           >
             VIEW ALL →
           </Link>
@@ -172,9 +172,9 @@ export default async function AdminDashboardPage() {
                 className="py-4 flex items-center justify-between gap-4 group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-lavender/60 group-hover:bg-lavender transition-colors" />
+                  <div className="w-2 h-2 rounded-full bg-orange/60 group-hover:bg-orange transition-colors" />
                   <div>
-                    <span className="font-sans text-sm font-medium text-softwhite group-hover:text-lavender transition-colors block">
+                    <span className="font-sans text-sm font-medium text-softwhite group-hover:text-orange transition-colors block">
                       {p.title}
                     </span>
                     <span className="font-mono text-[10px] text-muted">

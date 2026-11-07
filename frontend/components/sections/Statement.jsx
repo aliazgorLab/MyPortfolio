@@ -37,7 +37,7 @@ export default function Statement() {
         {/* Section Index & Category */}
         <div className="flex items-center justify-between text-xs font-mono text-muted uppercase tracking-widest mb-12">
           <div className="flex items-center gap-2">
-            <span className="text-lavender">02 //</span>
+            <span className="text-orange">02 //</span>
             <span>INTENTION & PERSPECTIVE</span>
           </div>
           <span className="hidden sm:inline">FUTURE / FORM</span>
@@ -47,13 +47,13 @@ export default function Statement() {
         <div ref={textRef} className="max-w-5xl">
           <p className="font-editorial-statement text-softwhite mb-8">
             GOOD DIGITAL EXPERIENCES ARE{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-lavender via-mist to-softwhite underline decoration-lavender/40 decoration-1 underline-offset-8">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange via-softwhite to-orange-light underline decoration-orange/40 decoration-1 underline-offset-8">
               DESIGNED WITH INTENTION
             </span>
             .
           </p>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start pt-6 border-t border-white/10">
-            <div className="md:col-span-4 font-mono text-xs text-lavender tracking-widest uppercase">
+            <div className="md:col-span-4 font-mono text-xs text-orange tracking-widest uppercase">
               // DESIGN PHILOSOPHY
             </div>
             <div className="md:col-span-8 font-sans text-muted/90 text-base md:text-lg leading-relaxed">

@@ -75,7 +75,7 @@ export default function Preloader({ onComplete }) {
       {/* Top telemetry bar */}
       <div className="w-full max-w-7xl px-6 py-8 flex items-center justify-between border-b border-white/5">
         <div className="flex items-center gap-3">
-          <span className="inline-block w-2 h-2 rounded-full bg-lavender animate-pulse" />
+          <span className="inline-block w-2 h-2 rounded-full bg-orange animate-pulse" />
           <span className="font-mono text-xs tracking-widest text-muted uppercase">
             SYS_INIT // 2026.V2
           </span>
@@ -85,7 +85,7 @@ export default function Preloader({ onComplete }) {
         </div>
         <button
           onClick={handleSkip}
-          className="font-mono text-xs tracking-widest text-lavender/70 hover:text-lavender underline uppercase transition-colors"
+          className="font-mono text-xs tracking-widest text-orange/80 hover:text-orange-light underline uppercase transition-colors"
         >
           [ SKIP ESC ]
         </button>
@@ -95,11 +95,11 @@ export default function Preloader({ onComplete }) {
       <div className="flex flex-col items-center text-center px-6">
         {/* Futuristic Monogram */}
         <div className="relative mb-8 w-20 h-20 flex items-center justify-center border border-white/10 rounded-lg bg-surface-100/50 backdrop-blur-md overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-lavender/20 via-transparent to-transparent opacity-60 animate-pulse" />
+          <div className="absolute inset-0 bg-gradient-to-b from-orange/20 via-transparent to-transparent opacity-60 animate-pulse" />
           {/* Subtle horizontal scanline */}
-          <div className="absolute inset-x-0 h-[1px] bg-lavender/60 top-0 animate-[scan_2s_ease-in-out_infinite]" />
+          <div className="absolute inset-x-0 h-[1px] bg-orange/60 top-0 animate-[scan_2s_ease-in-out_infinite]" />
           <span className="font-display text-3xl font-bold tracking-tighter text-softwhite">
-            AA<span className="text-lavender">.</span>
+            AA<span className="text-orange">.</span>
           </span>
         </div>
 
@@ -110,7 +110,7 @@ export default function Preloader({ onComplete }) {
           </h1>
         </div>
 
-        <p className="font-mono text-xs sm:text-sm tracking-widest text-lavender/90 uppercase mb-8">
+        <p className="font-mono text-xs sm:text-sm tracking-widest text-orange/90 uppercase mb-8">
           Future / Form · Portfolio Initialization
         </p>
 
@@ -122,7 +122,7 @@ export default function Preloader({ onComplete }) {
           </div>
           <div className="w-full h-[2px] bg-white/10 overflow-hidden rounded-full">
             <div
-              className="h-full bg-lavender transition-all duration-100 ease-out shadow-[0_0_12px_#c7b8ff]"
+              className="h-full bg-orange transition-all duration-100 ease-out shadow-[0_0_12px_rgba(244,106,69,0.7)]"
               style={{ width: `${progress}%` }}
             />
           </div>

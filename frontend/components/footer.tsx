@@ -160,11 +160,11 @@ export function Footer() {
           <div className="flex items-center gap-3">
             <Link
               href="/admin/login"
-              className="group inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-xs font-mono text-neutral-500 transition-all duration-200 hover:text-lavender hover:bg-neutral-900/80 focus:outline-none focus:ring-1 focus:ring-lavender/30"
+              className="group inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-xs font-mono text-neutral-500 transition-all duration-200 hover:text-orange hover:bg-neutral-900/80 focus:outline-none focus:ring-1 focus:ring-orange/30"
               aria-label="Admin Portal Login"
               title="Admin Portal"
             >
-              <Lock className="h-3 w-3 text-neutral-500 transition-transform duration-200 group-hover:scale-110 group-hover:text-lavender" />
+              <Lock className="h-3 w-3 text-neutral-500 transition-transform duration-200 group-hover:scale-110 group-hover:text-orange" />
               <span className="tracking-wider">Admin</span>
             </Link>
 

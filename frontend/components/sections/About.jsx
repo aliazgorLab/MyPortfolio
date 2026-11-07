@@ -11,7 +11,7 @@ export default function About({ personalInfoData = null }) {
       <div id="research" className="absolute -top-24 pointer-events-none" aria-hidden="true" />
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="flex items-center gap-2 text-xs font-mono text-lavender tracking-widest uppercase mb-4">
+        <div className="flex items-center gap-2 text-xs font-mono text-orange tracking-widest uppercase mb-4">
           <span>04 //</span>
           <span>A LITTLE ABOUT ME</span>
         </div>
@@ -34,7 +34,7 @@ export default function About({ personalInfoData = null }) {
 
               {/* Overlay Metadata */}
               <div className="absolute bottom-6 left-6 right-6 text-softwhite">
-                <div className="font-mono text-[10px] text-lavender tracking-widest uppercase mb-1">
+                <div className="font-mono text-[10px] text-orange tracking-widest uppercase mb-1">
                   DISCIPLINE // SPEC.02
                 </div>
                 <div className="font-display text-xl font-bold tracking-tight">
@@ -53,7 +53,7 @@ export default function About({ personalInfoData = null }) {
             {/* Headline */}
             <h2 className="font-display-heading text-softwhite mb-8 tracking-tighter">
               CURIOUS BY NATURE.
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-softwhite via-mist to-lavender">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-softwhite via-mist to-orange">
                 PRECISE BY DESIGN.
               </span>
             </h2>
@@ -74,7 +74,7 @@ export default function About({ personalInfoData = null }) {
             {/* Quick Metrics / Details Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-white/10">
               <div className="p-4 rounded-xl bg-surface-100/50 border border-white/5 flex items-start gap-3">
-                <GraduationCap className="w-5 h-5 text-lavender shrink-0 mt-0.5" />
+                <GraduationCap className="w-5 h-5 text-orange shrink-0 mt-0.5" />
                 <div>
                   <span className="font-mono text-[10px] text-muted uppercase tracking-widest block mb-0.5">
                     ACADEMIC FOCUS
@@ -89,7 +89,7 @@ export default function About({ personalInfoData = null }) {
               </div>
 
               <div className="p-4 rounded-xl bg-surface-100/50 border border-white/5 flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-lavender shrink-0 mt-0.5" />
+                <MapPin className="w-5 h-5 text-orange shrink-0 mt-0.5" />
                 <div>
                   <span className="font-mono text-[10px] text-muted uppercase tracking-widest block mb-0.5">
                     LOCATION & TIMEZONE
@@ -104,7 +104,7 @@ export default function About({ personalInfoData = null }) {
               </div>
 
               <div className="p-4 rounded-xl bg-surface-100/50 border border-white/5 flex items-start gap-3">
-                <Terminal className="w-5 h-5 text-lavender shrink-0 mt-0.5" />
+                <Terminal className="w-5 h-5 text-orange shrink-0 mt-0.5" />
                 <div>
                   <span className="font-mono text-[10px] text-muted uppercase tracking-widest block mb-0.5">
                     CORE SPECIALTY
@@ -119,7 +119,7 @@ export default function About({ personalInfoData = null }) {
               </div>
 
               <div className="p-4 rounded-xl bg-surface-100/50 border border-white/5 flex items-start gap-3">
-                <Compass className="w-5 h-5 text-lavender shrink-0 mt-0.5" />
+                <Compass className="w-5 h-5 text-orange shrink-0 mt-0.5" />
                 <div>
                   <span className="font-mono text-[10px] text-muted uppercase tracking-widest block mb-0.5">
                     STATUS

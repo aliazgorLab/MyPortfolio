@@ -42,22 +42,27 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError(null);
 
-    const res = await loginAction({ identifier, password });
-    if (!res.success) {
-      setError(res.error || "Invalid Admin ID or credentials.");
-      setLoading(false);
-      return;
-    }
+    try {
+      const res = await loginAction({ identifier, password });
+      if (!res.success) {
+        setError(res.error || "Invalid Admin ID or credentials.");
+        setLoading(false);
+        return;
+      }
 
-    router.push("/admin");
-    router.refresh();
+      router.push("/admin");
+      router.refresh();
+    } catch {
+      setError("Unable to process sign in request. Please verify credentials and try again.");
+      setLoading(false);
+    }
   };
 
   if (checkingAuth) {
     return (
       <div className="min-h-screen bg-obsidian flex items-center justify-center px-4 noise-bg relative">
         <div className="flex flex-col items-center gap-3 text-muted font-mono text-xs">
-          <Loader2 className="w-6 h-6 animate-spin text-lavender" />
+          <Loader2 className="w-6 h-6 animate-spin text-orange" />
           <span>VERIFYING ACCESS PRIVILEGES...</span>
         </div>
       </div>
@@ -67,15 +72,15 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-obsidian flex items-center justify-center px-4 py-12 noise-bg relative">
       {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-lavender/5 blur-[140px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-orange/5 blur-[140px] rounded-full pointer-events-none" />
 
       <div className="w-full max-w-md p-8 md:p-10 rounded-2xl bg-surface-100/70 border border-white/10 backdrop-blur-2xl relative shadow-2xl z-10">
         {/* Header Badge & Title */}
         <div className="flex flex-col items-center text-center mb-8">
-          <div className="w-12 h-12 rounded-xl bg-lavender/10 border border-lavender/25 flex items-center justify-center text-lavender mb-4 shadow-[0_0_20px_rgba(199,184,255,0.25)]">
+          <div className="w-12 h-12 rounded-xl bg-orange/10 border border-orange/25 flex items-center justify-center text-orange mb-4 shadow-[0_0_20px_rgba(244,106,69,0.25)]">
             <Shield className="w-6 h-6" />
           </div>
-          <div className="font-mono text-[10px] text-lavender tracking-widest uppercase mb-1">
+          <div className="font-mono text-[10px] text-orange tracking-widest uppercase mb-1">
             SECURITY GATEWAY // RESTRICTED ACCESS
           </div>
           <h1 className="font-display text-2xl font-bold tracking-tight text-softwhite">
@@ -109,7 +114,7 @@ export default function AdminLoginPage() {
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
                 placeholder="admin or email@domain.com"
-                className="w-full pl-10 pr-4 py-3 rounded-lg bg-surface-200/80 border border-white/10 text-softwhite font-sans text-sm focus:outline-none focus:border-lavender transition-colors placeholder:text-muted/40"
+                className="w-full pl-10 pr-4 py-3 rounded-lg bg-surface-200/80 border border-white/10 text-softwhite font-sans text-sm focus:outline-none focus:border-orange transition-colors placeholder:text-muted/40"
               />
             </div>
           </div>
@@ -129,7 +134,7 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••••••"
-                className="w-full pl-10 pr-11 py-3 rounded-lg bg-surface-200/80 border border-white/10 text-softwhite font-sans text-sm focus:outline-none focus:border-lavender transition-colors placeholder:text-muted/40"
+                className="w-full pl-10 pr-11 py-3 rounded-lg bg-surface-200/80 border border-white/10 text-softwhite font-sans text-sm focus:outline-none focus:border-orange transition-colors placeholder:text-muted/40"
               />
               <button
                 type="button"
@@ -138,7 +143,7 @@ export default function AdminLoginPage() {
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? (
-                  <EyeOff className="w-4 h-4 text-lavender" />
+                  <EyeOff className="w-4 h-4 text-orange" />
                 ) : (
                   <Eye className="w-4 h-4" />
                 )}
@@ -149,7 +154,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="mt-4 w-full py-3.5 px-4 rounded-lg bg-lavender text-obsidian font-mono text-xs font-semibold tracking-wider uppercase hover:bg-softwhite transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(199,184,255,0.3)] hover:shadow-[0_0_25px_rgba(199,184,255,0.45)] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-4 w-full py-3.5 px-4 rounded-lg bg-orange text-obsidian font-mono text-xs font-semibold tracking-wider uppercase hover:bg-orange-light transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(244,106,69,0.3)] hover:shadow-[0_0_25px_rgba(244,106,69,0.45)] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
               <>
@@ -169,7 +174,7 @@ export default function AdminLoginPage() {
         <div className="mt-8 pt-6 border-t border-white/5 text-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-1 font-mono text-xs text-muted/70 hover:text-lavender transition-colors tracking-wider uppercase"
+            className="inline-flex items-center gap-1 font-mono text-xs text-muted/70 hover:text-orange transition-colors tracking-wider uppercase"
           >
             <span>&larr; Return to Public Portfolio</span>
           </Link>

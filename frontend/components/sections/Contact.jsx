@@ -35,11 +35,11 @@ export default function Contact({ personalInfoData = null }) {
   return (
     <section id="contact" className="py-32 md:py-44 px-6 bg-obsidian relative border-t border-white/5 noise-bg overflow-hidden">
       {/* Background Cinematic Atmosphere */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[550px] bg-lavender/5 rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[550px] bg-orange/5 rounded-full blur-[180px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
-        <div className="flex items-center gap-2 text-xs font-mono text-lavender tracking-widest uppercase mb-6">
+        <div className="flex items-center gap-2 text-xs font-mono text-orange tracking-widest uppercase mb-6">
           <span>08 //</span>
           <span>INITIATE COLLABORATION</span>
         </div>
@@ -48,7 +48,7 @@ export default function Contact({ personalInfoData = null }) {
         <div className="max-w-5xl mb-16">
           <h2 className="font-display-hero text-softwhite tracking-tighter">
             HAVE AN IDEA?
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-softwhite via-mist to-lavender">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-softwhite via-mist to-orange">
               LET&apos;S MAKE IT REAL.
             </span>
           </h2>
@@ -62,7 +62,7 @@ export default function Contact({ personalInfoData = null }) {
           {/* Left Column: Direct Inquiries & Quick Messenger (7 cols) */}
           <div className="lg:col-span-7 p-8 sm:p-10 rounded-2xl border border-white/10 bg-surface-100/40 backdrop-blur-xl">
             <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
-              <span className="font-mono text-xs text-lavender uppercase tracking-widest">
+              <span className="font-mono text-xs text-orange uppercase tracking-widest">
                 // DIRECT DISPATCH CHANNEL
               </span>
               <span className="font-mono text-[10px] text-muted uppercase">
@@ -81,7 +81,7 @@ export default function Contact({ personalInfoData = null }) {
                   placeholder="e.g. Elena Rostova"
                   value={senderName}
                   onChange={(e) => setSenderName(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg bg-surface-200/80 border border-white/10 text-softwhite font-sans text-sm focus:outline-none focus:border-lavender transition-colors placeholder:text-muted/40"
+                  className="w-full px-4 py-3 rounded-lg bg-surface-200/80 border border-white/10 text-softwhite font-sans text-sm focus:outline-none focus:border-orange transition-colors placeholder:text-muted/40"
                 />
               </div>
 
@@ -95,7 +95,7 @@ export default function Contact({ personalInfoData = null }) {
                   placeholder="e.g. Design System & Frontend Architecture"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg bg-surface-200/80 border border-white/10 text-softwhite font-sans text-sm focus:outline-none focus:border-lavender transition-colors placeholder:text-muted/40"
+                  className="w-full px-4 py-3 rounded-lg bg-surface-200/80 border border-white/10 text-softwhite font-sans text-sm focus:outline-none focus:border-orange transition-colors placeholder:text-muted/40"
                 />
               </div>
 
@@ -109,13 +109,13 @@ export default function Contact({ personalInfoData = null }) {
                   placeholder="Tell me about your goals, timelines, or role opportunities..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg bg-surface-200/80 border border-white/10 text-softwhite font-sans text-sm focus:outline-none focus:border-lavender transition-colors placeholder:text-muted/40 resize-none"
+                  className="w-full px-4 py-3 rounded-lg bg-surface-200/80 border border-white/10 text-softwhite font-sans text-sm focus:outline-none focus:border-orange transition-colors placeholder:text-muted/40 resize-none"
                 />
               </div>
 
               <button
                 type="submit"
-                className="mt-2 inline-flex items-center justify-center gap-3 px-6 py-4 rounded-lg bg-softwhite text-obsidian font-mono text-xs font-semibold tracking-wider uppercase hover:bg-lavender transition-all duration-300 shadow-[0_0_20px_rgba(243,242,239,0.15)] hover:shadow-[0_0_25px_rgba(199,184,255,0.4)]"
+                className="mt-2 inline-flex items-center justify-center gap-3 px-6 py-4 rounded-lg bg-softwhite text-obsidian font-mono text-xs font-semibold tracking-wider uppercase hover:bg-orange hover:text-obsidian transition-all duration-300 shadow-[0_0_20px_rgba(243,242,239,0.15)] hover:shadow-[0_0_25px_rgba(244,106,69,0.4)]"
               >
                 <span>OPEN TRANSMISSION IN EMAIL CLIENT</span>
                 <Send className="w-4 h-4" />
@@ -132,7 +132,7 @@ export default function Contact({ personalInfoData = null }) {
               </span>
               <a
                 href={`mailto:${activeInfo.email}`}
-                className="font-display text-xl sm:text-2xl font-bold text-softwhite hover:text-lavender transition-colors break-all"
+                className="font-display text-xl sm:text-2xl font-bold text-softwhite hover:text-orange transition-colors break-all"
               >
                 {activeInfo.email}
               </a>
@@ -140,7 +140,7 @@ export default function Contact({ personalInfoData = null }) {
               <div className="mt-6 flex flex-wrap gap-3">
                 <button
                   onClick={handleCopyEmail}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-white/15 bg-surface-200 text-xs font-mono tracking-wider uppercase text-softwhite hover:border-lavender hover:text-lavender transition-all"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-white/15 bg-surface-200 text-xs font-mono tracking-wider uppercase text-softwhite hover:border-orange hover:text-orange transition-all"
                 >
                   {copied ? (
                     <>
@@ -149,7 +149,7 @@ export default function Contact({ personalInfoData = null }) {
                     </>
                   ) : (
                     <>
-                      <Copy className="w-4 h-4 text-lavender" />
+                      <Copy className="w-4 h-4 text-orange" />
                       <span>COPY EMAIL ADDRESS</span>
                     </>
                   )}
@@ -157,7 +157,7 @@ export default function Contact({ personalInfoData = null }) {
 
                 <a
                   href={`mailto:${activeInfo.email}`}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-lavender text-obsidian text-xs font-mono font-semibold tracking-wider uppercase hover:bg-softwhite transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-orange text-obsidian text-xs font-mono font-semibold tracking-wider uppercase hover:bg-orange-light transition-colors"
                 >
                   <Mail className="w-4 h-4" />
                   <span>MAILTO</span>
@@ -175,10 +175,10 @@ export default function Contact({ personalInfoData = null }) {
                 href={activeInfo.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-4 rounded-xl bg-surface-200/50 border border-white/5 hover:border-lavender/40 hover:bg-surface-200 transition-all group"
+                className="flex items-center justify-between p-4 rounded-xl bg-surface-200/50 border border-white/5 hover:border-orange/40 hover:bg-surface-200 transition-all group"
               >
                 <div className="flex items-center gap-3">
-                  <LinkedinIcon className="w-5 h-5 text-lavender" />
+                  <LinkedinIcon className="w-5 h-5 text-orange" />
                   <div>
                     <span className="font-display text-sm font-semibold text-softwhite block">
                       LinkedIn Profile
@@ -188,17 +188,17 @@ export default function Contact({ personalInfoData = null }) {
                     </span>
                   </div>
                 </div>
-                <ArrowUpRight className="w-4 h-4 text-muted group-hover:text-lavender group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                <ArrowUpRight className="w-4 h-4 text-muted group-hover:text-orange group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
               </a>
 
               <a
                 href={activeInfo.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-4 rounded-xl bg-surface-200/50 border border-white/5 hover:border-lavender/40 hover:bg-surface-200 transition-all group"
+                className="flex items-center justify-between p-4 rounded-xl bg-surface-200/50 border border-white/5 hover:border-orange/40 hover:bg-surface-200 transition-all group"
               >
                 <div className="flex items-center gap-3">
-                  <GithubIcon className="w-5 h-5 text-lavender" />
+                  <GithubIcon className="w-5 h-5 text-orange" />
                   <div>
                     <span className="font-display text-sm font-semibold text-softwhite block">
                       GitHub Workspaces
@@ -208,7 +208,7 @@ export default function Contact({ personalInfoData = null }) {
                     </span>
                   </div>
                 </div>
-                <ArrowUpRight className="w-4 h-4 text-muted group-hover:text-lavender group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                <ArrowUpRight className="w-4 h-4 text-muted group-hover:text-orange group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
               </a>
             </div>
           </div>

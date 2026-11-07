@@ -55,13 +55,13 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
       </head>
       <body
         suppressHydrationWarning
-        className="bg-obsidian text-softwhite antialiased selection:bg-lavender selection:text-obsidian min-h-screen flex flex-col justify-between"
+        className="bg-obsidian text-softwhite antialiased selection:bg-orange selection:text-obsidian min-h-screen flex flex-col justify-between"
       >
         <SmoothScroll>
           <ScrollProgress />

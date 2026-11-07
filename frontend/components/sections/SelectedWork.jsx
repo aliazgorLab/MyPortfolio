@@ -32,7 +32,7 @@ export default function SelectedWork({ projectsData = null }) {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8 border-b border-white/10 pb-8">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-lavender tracking-widest uppercase mb-3">
+            <div className="flex items-center gap-2 text-xs font-mono text-orange tracking-widest uppercase mb-3">
               <span>03 //</span>
               <span>INDEXED WORKS</span>
             </div>
@@ -52,7 +52,7 @@ export default function SelectedWork({ projectsData = null }) {
                 onClick={() => setFilter(cat)}
                 className={`px-3 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all duration-300 ${
                   filter === cat
-                    ? "bg-lavender text-obsidian font-semibold shadow-[0_0_15px_rgba(199,184,255,0.3)]"
+                    ? "bg-orange text-obsidian font-semibold shadow-[0_0_15px_rgba(244,106,69,0.35)]"
                     : "bg-surface-100/60 text-muted hover:text-softwhite border border-white/5"
                 }`}
               >
@@ -69,7 +69,7 @@ export default function SelectedWork({ projectsData = null }) {
             return (
               <article
                 key={project.id}
-                className="group relative rounded-2xl border border-white/10 bg-surface-100/30 backdrop-blur-md p-6 sm:p-8 md:p-10 transition-all duration-500 hover:border-lavender/40 hover:bg-surface-100/60"
+                className="group relative rounded-2xl border border-white/10 bg-surface-100/30 backdrop-blur-md p-6 sm:p-8 md:p-10 transition-all duration-500 hover:border-orange/40 hover:bg-surface-100/60"
               >
                 <div
                   className={`grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center ${
@@ -96,13 +96,13 @@ export default function SelectedWork({ projectsData = null }) {
                     <div className="absolute inset-0 bg-gradient-to-t from-obsidian/70 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity" />
 
                     {/* Quick view floating badge */}
-                    <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-xs font-mono text-softwhite group-hover:border-lavender/50 transition-colors">
-                      <Eye className="w-3.5 h-3.5 text-lavender" />
+                    <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-xs font-mono text-softwhite group-hover:border-orange/50 transition-colors">
+                      <Eye className="w-3.5 h-3.5 text-orange" />
                       <span>VIEW SPECS</span>
                     </div>
 
                     {/* Project Number badge on image */}
-                    <div className="absolute top-4 left-4 z-10 font-mono text-xs font-bold text-lavender bg-obsidian/80 backdrop-blur-md px-2.5 py-1 rounded border border-white/10">
+                    <div className="absolute top-4 left-4 z-10 font-mono text-xs font-bold text-orange bg-obsidian/80 backdrop-blur-md px-2.5 py-1 rounded border border-white/10">
                       {project.number}
                     </div>
                   </div>
@@ -115,13 +115,13 @@ export default function SelectedWork({ projectsData = null }) {
                   >
                     {/* Category & Year */}
                     <div className="flex items-center gap-3 text-xs font-mono text-muted uppercase tracking-widest mb-3">
-                      <span className="text-lavender">{project.category}</span>
+                      <span className="text-orange">{project.category}</span>
                       <span>·</span>
                       <span>{project.year}</span>
                     </div>
 
                     {/* Project Title */}
-                    <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-softwhite tracking-tight mb-4 group-hover:text-lavender transition-colors duration-300">
+                    <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-softwhite tracking-tight mb-4 group-hover:text-orange transition-colors duration-300">
                       {project.title}
                     </h3>
 
@@ -156,7 +156,7 @@ export default function SelectedWork({ projectsData = null }) {
                     <div className="flex items-center gap-4">
                       <button
                         onClick={() => setSelectedProject(project)}
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded bg-softwhite text-obsidian font-mono text-xs font-semibold tracking-wider uppercase hover:bg-lavender transition-colors"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded bg-softwhite text-obsidian font-mono text-xs font-semibold tracking-wider uppercase hover:bg-orange hover:text-obsidian transition-colors"
                       >
                         <span>EXPLORE CASE STUDY</span>
                         <ArrowUpRight className="w-3.5 h-3.5" />
@@ -167,7 +167,7 @@ export default function SelectedWork({ projectsData = null }) {
                           href={project.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 p-2.5 rounded border border-white/10 text-muted hover:text-softwhite hover:border-lavender transition-colors"
+                          className="inline-flex items-center gap-1.5 p-2.5 rounded border border-white/10 text-muted hover:text-softwhite hover:border-orange transition-colors"
                           title="Open Project Repository"
                         >
                           <ExternalLink className="w-4 h-4" />

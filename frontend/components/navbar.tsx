@@ -82,14 +82,14 @@ export function Navigation() {
       {/* ============================================================ */}
       {/* 1. STATIC HERO NAVBAR (Natural document flow)                */}
       {/* ============================================================ */}
-      <header className="relative z-40 w-full border-b border-neutral-800/40 bg-transparent">
+      <header className="relative z-40 w-full border-b border-white/[0.06] bg-transparent">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 lg:px-8">
           <Link
-            className="font-mono text-xl font-bold tracking-tight text-neutral-100 transition hover:opacity-85"
+            className="font-mono text-xl font-bold tracking-tight text-softwhite transition hover:opacity-85"
             href="/"
             onClick={handleLogoClick}
           >
-            AZ<span className="text-emerald-500">.</span>
+            AZ<span className="text-orange">.</span>
           </Link>
 
           <nav className="hidden items-center gap-10 md:flex">
@@ -98,7 +98,7 @@ export function Navigation() {
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="text-sm font-medium text-neutral-400 transition hover:text-neutral-100"
+                className="text-sm font-medium text-neutral-400 transition hover:text-softwhite"
               >
                 {link.label}
               </Link>
@@ -126,15 +126,15 @@ export function Navigation() {
               damping: 24,
               mass: 0.85,
             }}
-            className="fixed inset-x-0 top-5 z-50 mx-auto flex w-[92%] max-w-4xl items-center justify-between rounded-2xl border border-neutral-800/80 bg-neutral-950/85 px-6 py-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.65)] backdrop-blur-2xl sm:px-8"
+            className="fixed inset-x-0 top-5 z-50 mx-auto flex w-[92%] max-w-4xl items-center justify-between rounded-2xl border border-white/10 bg-obsidian/90 px-6 py-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.75)] backdrop-blur-2xl sm:px-8"
           >
             {/* Logo */}
             <Link
-              className="font-mono text-lg font-bold tracking-tight text-neutral-100 transition hover:opacity-85"
+              className="font-mono text-lg font-bold tracking-tight text-softwhite transition hover:opacity-85"
               href="/"
               onClick={handleLogoClick}
             >
-              AZ<span className="text-emerald-500">.</span>
+              AZ<span className="text-orange">.</span>
             </Link>
 
             {/* Navigation Links */}
@@ -146,12 +146,16 @@ export function Navigation() {
                     key={link.label}
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className={`text-sm font-medium transition-colors duration-200 ${isActive
-                        ? "font-semibold text-white"
-                        : "text-neutral-400 hover:text-neutral-100"
-                      }`}
+                    className={`text-sm font-medium transition-colors duration-200 relative ${
+                      isActive
+                        ? "font-semibold text-orange"
+                        : "text-neutral-400 hover:text-softwhite"
+                    }`}
                   >
                     {link.label}
+                    {isActive && (
+                      <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-orange" />
+                    )}
                   </Link>
                 );
               })}

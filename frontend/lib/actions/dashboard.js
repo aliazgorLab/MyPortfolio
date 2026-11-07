@@ -9,16 +9,7 @@ export async function getDashboardStatsAction() {
 
     if (supabase) {
       try {
-        const [
-          { count: totalProjects },
-          { count: publishedProjects },
-          { count: totalArtworks },
-          { count: totalExperiences },
-          { count: totalSkills },
-          { count: totalCertifications },
-          { count: totalAchievements },
-          { count: totalMedia },
-        ] = await Promise.all([
+        const queryPromise = Promise.all([
           supabase.from("projects").select("id", { count: "exact", head: true }),
           supabase.from("projects").select("id", { count: "exact", head: true }).eq("status", "published"),
           supabase.from("artworks").select("id", { count: "exact", head: true }),
@@ -28,6 +19,28 @@ export async function getDashboardStatsAction() {
           supabase.from("achievements").select("id", { count: "exact", head: true }),
           supabase.from("media").select("id", { count: "exact", head: true }),
         ]);
+
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Supabase query timeout")), 1800)
+        );
+
+        const results = await Promise.race([queryPromise, timeoutPromise]);
+        
+        // If any core query returned an error or null count, use local fallback
+        if (results.some((r) => r.error || r.count === null)) {
+          throw new Error("Supabase returned empty or error response");
+        }
+
+        const [
+          { count: totalProjects },
+          { count: publishedProjects },
+          { count: totalArtworks },
+          { count: totalExperiences },
+          { count: totalSkills },
+          { count: totalCertifications },
+          { count: totalAchievements },
+          { count: totalMedia },
+        ] = results;
 
         const { data: recentProjects } = await supabase
           .from("projects")
@@ -52,7 +65,7 @@ export async function getDashboardStatsAction() {
           recentProjects: recentProjects || [],
         });
       } catch {
-        // Fall back to local portfolio data if Supabase network fails
+        // Fall back to local portfolio data if Supabase network fails or times out
       }
     }
 

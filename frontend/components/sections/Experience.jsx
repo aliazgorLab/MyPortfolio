@@ -11,7 +11,7 @@ export default function Experience({ experienceData = null }) {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 border-b border-white/10 pb-8">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-lavender tracking-widest uppercase mb-3">
+            <div className="flex items-center gap-2 text-xs font-mono text-orange tracking-widest uppercase mb-3">
               <span>05 //</span>
               <span>PROFESSIONAL TIMELINE</span>
             </div>
@@ -32,28 +32,28 @@ export default function Experience({ experienceData = null }) {
           {activeExperience.map((item, idx) => (
             <div key={item.id} className="relative group">
               {/* Timeline marker on the vertical rule */}
-              <div className="absolute -left-[41px] md:-left-[73px] top-1.5 w-4 h-4 rounded-full border-2 border-obsidian bg-surface-200 group-hover:bg-lavender group-hover:scale-125 transition-all duration-300 shadow-[0_0_10px_rgba(199,184,255,0.4)]">
+              <div className="absolute -left-[41px] md:-left-[73px] top-1.5 w-4 h-4 rounded-full border-2 border-obsidian bg-surface-200 group-hover:bg-orange group-hover:scale-125 transition-all duration-300 shadow-[0_0_10px_rgba(244,106,69,0.5)]">
                 {item.current && (
-                  <span className="absolute inset-0 rounded-full bg-lavender animate-ping opacity-75" />
+                  <span className="absolute inset-0 rounded-full bg-orange animate-ping opacity-75" />
                 )}
               </div>
 
               {/* Floating period date on desktop to the left */}
-              <div className="hidden md:block absolute -left-48 top-1 font-mono text-xs text-muted group-hover:text-lavender transition-colors w-28 text-right">
+              <div className="hidden md:block absolute -left-48 top-1 font-mono text-xs text-muted group-hover:text-orange transition-colors w-28 text-right">
                 {item.period}
               </div>
 
               {/* Card Container */}
-              <div className="p-6 md:p-8 rounded-2xl border border-white/10 bg-surface-100/40 backdrop-blur-md hover:border-lavender/40 hover:bg-surface-100/70 transition-all duration-300">
+              <div className="p-6 md:p-8 rounded-2xl border border-white/10 bg-surface-100/40 backdrop-blur-md hover:border-orange/40 hover:bg-surface-100/70 transition-all duration-300">
                 {/* Mobile Period Tag */}
-                <div className="md:hidden flex items-center gap-2 font-mono text-xs text-lavender mb-2">
+                <div className="md:hidden flex items-center gap-2 font-mono text-xs text-orange mb-2">
                   <Calendar className="w-3.5 h-3.5" />
                   <span>{item.period}</span>
                 </div>
 
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
                   <div>
-                    <h3 className="font-display text-2xl font-bold text-softwhite group-hover:text-lavender transition-colors">
+                    <h3 className="font-display text-2xl font-bold text-softwhite group-hover:text-orange transition-colors">
                       {item.role}
                     </h3>
                     <div className="flex items-center gap-2 mt-1">
@@ -81,7 +81,7 @@ export default function Experience({ experienceData = null }) {
                       key={i}
                       className="flex items-start gap-3 text-sm text-muted/90 font-sans leading-relaxed"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-lavender/60 shrink-0 mt-2" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-orange/60 shrink-0 mt-2" />
                       <span>{pt}</span>
                     </li>
                   ))}
@@ -90,7 +90,7 @@ export default function Experience({ experienceData = null }) {
                 {/* Clear Transparency / Confirmation Note if flagged */}
                 {item.note && (
                   <div className="mt-4 pt-3 border-t border-white/5 flex items-center gap-2 font-mono text-[11px] text-muted/60">
-                    <AlertCircle className="w-3.5 h-3.5 text-lavender/60 shrink-0" />
+                    <AlertCircle className="w-3.5 h-3.5 text-orange/60 shrink-0" />
                     <span>{item.note}</span>
                   </div>
                 )}

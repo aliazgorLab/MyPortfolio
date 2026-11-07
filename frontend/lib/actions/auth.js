@@ -20,6 +20,10 @@ export async function loginAction(credentials) {
     const rawPassword = validated.password;
     const cookieStore = await cookies();
 
+    const isSecureCookie =
+      process.env.NODE_ENV === "production" &&
+      (Boolean(process.env.VERCEL) || process.env.NEXT_PUBLIC_SITE_URL?.startsWith("https://"));
+
     // 1. Check verified Administrator credentials (admin / aliazgor@zgOR)
     const isLocalAdminValid = verifyAdminCredentials(rawIdentifier, rawPassword);
 
@@ -29,20 +33,26 @@ export async function loginAction(credentials) {
 
       cookieStore.set(ADMIN_COOKIE_NAME, sessionToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: isSecureCookie,
         sameSite: "lax",
         path: "/",
         maxAge: 60 * 60 * 24 * 7, // 7 days
       });
 
-      // Best-effort sync with Supabase Auth if online
+      // Best-effort non-blocking sync with Supabase Auth if online
       try {
         const supabase = await createClient();
         if (supabase) {
           const targetEmail = process.env.ADMIN_EMAIL || "ali.azgor.0810@gmail.com";
-          await supabase.auth.signInWithPassword({
-            email: targetEmail,
-            password: rawPassword,
+          // Fast-fail after 1500ms so an offline Supabase never slows down login
+          await Promise.race([
+            supabase.auth.signInWithPassword({
+              email: targetEmail,
+              password: rawPassword,
+            }),
+            new Promise((_, reject) => setTimeout(() => reject(new Error("Auth sync timeout")), 1500)),
+          ]).catch(() => {
+            // Silently tolerate offline / paused Supabase connection
           });
         }
       } catch {
@@ -111,7 +121,7 @@ export async function loginAction(credentials) {
 
       cookieStore.set(ADMIN_COOKIE_NAME, sessionToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: isSecureCookie,
         sameSite: "lax",
         path: "/",
         maxAge: 60 * 60 * 24 * 7,

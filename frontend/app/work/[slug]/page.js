@@ -34,7 +34,7 @@ export default async function ProjectCaseStudyPage({ params }) {
         {/* Back Link */}
         <Link
           href="/#work"
-          className="inline-flex items-center gap-2 font-mono text-xs text-muted hover:text-lavender tracking-widest uppercase transition-colors mb-12"
+          className="inline-flex items-center gap-2 font-mono text-xs text-muted hover:text-orange tracking-widest uppercase transition-colors mb-12"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>RETURN TO SELECTED WORK</span>
@@ -42,7 +42,7 @@ export default async function ProjectCaseStudyPage({ params }) {
 
         {/* Header */}
         <div className="border-b border-white/10 pb-8 mb-12">
-          <div className="flex items-center gap-3 font-mono text-xs text-lavender tracking-widest uppercase mb-3">
+          <div className="flex items-center gap-3 font-mono text-xs text-orange tracking-widest uppercase mb-3">
             <span>PROJECT // {project.number}</span>
             <span>·</span>
             <span>{project.category}</span>
@@ -71,7 +71,7 @@ export default async function ProjectCaseStudyPage({ params }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
           <div className="lg:col-span-8 flex flex-col gap-8">
             <div>
-              <h2 className="font-mono text-xs text-lavender tracking-widest uppercase mb-4">
+              <h2 className="font-mono text-xs text-orange tracking-widest uppercase mb-4">
                 // SYSTEM ARCHITECTURE & CHALLENGE
               </h2>
               <p className="font-sans text-muted/90 text-base sm:text-lg leading-relaxed">
@@ -81,7 +81,7 @@ export default async function ProjectCaseStudyPage({ params }) {
 
             {project.features && project.features.length > 0 && (
               <div>
-                <h2 className="font-mono text-xs text-lavender tracking-widest uppercase mb-4">
+                <h2 className="font-mono text-xs text-orange tracking-widest uppercase mb-4">
                   // CORE IMPLEMENTATIONS
                 </h2>
                 <ul className="flex flex-col gap-3">
@@ -90,7 +90,7 @@ export default async function ProjectCaseStudyPage({ params }) {
                       key={i}
                       className="flex items-start gap-3 font-sans text-base text-softwhite/90"
                     >
-                      <CheckCircle2 className="w-5 h-5 text-lavender shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-5 h-5 text-orange shrink-0 mt-0.5" />
                       <span>{feat}</span>
                     </li>
                   ))}
@@ -131,7 +131,7 @@ export default async function ProjectCaseStudyPage({ params }) {
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded bg-lavender text-obsidian font-mono text-xs font-semibold tracking-wider uppercase hover:bg-softwhite transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded bg-orange text-obsidian font-mono text-xs font-semibold tracking-wider uppercase hover:bg-orange-light transition-colors"
                 >
                   <span>VISIT REPOSITORY / APP</span>
                   <ExternalLink className="w-4 h-4" />
@@ -142,7 +142,7 @@ export default async function ProjectCaseStudyPage({ params }) {
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded border border-white/10 bg-surface-200 text-softwhite font-mono text-xs font-medium tracking-wider uppercase hover:border-lavender hover:text-lavender transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded border border-white/10 bg-surface-200 text-softwhite font-mono text-xs font-medium tracking-wider uppercase hover:border-orange hover:text-orange transition-colors"
                 >
                   <GithubIcon className="w-4 h-4" />
                   <span>VIEW SOURCE REPO</span>
@@ -156,13 +156,13 @@ export default async function ProjectCaseStudyPage({ params }) {
         <div className="pt-12 border-t border-white/10 flex justify-between items-center">
           <Link
             href="/#work"
-            className="font-mono text-xs text-lavender tracking-wider uppercase hover:underline"
+            className="font-mono text-xs text-orange tracking-wider uppercase hover:underline"
           >
             ← BROWSE ALL WORKS
           </Link>
           <a
             href="/#contact"
-            className="font-mono text-xs text-softwhite tracking-wider uppercase hover:text-lavender"
+            className="font-mono text-xs text-softwhite tracking-wider uppercase hover:text-orange transition-colors"
           >
             CONTACT FOR COLLABORATION →
           </a>
