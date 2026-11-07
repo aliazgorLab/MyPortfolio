@@ -5,7 +5,7 @@ import Preloader from "@/components/layout/Preloader";
 import Hero from "@/components/sections/Hero";
 import TechStackMarquee from "@/components/ui/tech-stack-marquee";
 import Statement from "@/components/sections/Statement";
-import SelectedWork from "@/components/sections/SelectedWork";
+import CreativeUniverseSection from "@/components/sections/CreativeUniverseSection";
 import About from "@/components/sections/About";
 import Experience from "@/components/sections/Experience";
 import ProjectProcess from "@/components/sections/project-process";
@@ -22,7 +22,7 @@ export default function Home() {
       <Hero />
       <TechStackMarquee />
       <Statement />
-      <SelectedWork />
+      <CreativeUniverseSection />
       <About />
       <Experience />
       <ProjectProcess />
